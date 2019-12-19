@@ -1,4 +1,4 @@
-App = {
+var App = {
   web3Provider: null,
   contracts: {},
   account: '0x0',
@@ -6,6 +6,7 @@ App = {
 
   init: function() {
     window.ethereum.enable();//saved the world
+    App.appUi();
     return App.initWeb3();
   },
 
@@ -24,6 +25,8 @@ App = {
     }
     return App.initContract();
   },
+
+  
 
   initContract: function() {
     $.getJSON("Election.json", function(election) {
@@ -121,11 +124,40 @@ App = {
     }).catch(function(err) {
       console.error(err);
     });
+  },
+
+    appUi:function () {
+      let = readMore = () => {
+        $(".myBtn").on("click", function () {
+          let parent = $(this).prev("p")[0];
+          let dots = $(parent).children(".dots")[0];
+        let moreText = $(parent).children(".more")[0];
+        debugger;
+      
+        if (!$(dots).is(":visible")) {
+          $(dots).show();
+          $(this).text("Read more"); 
+          $(moreText).slideUp();
+        } else {
+          $(dots).hide();
+          $(this).text("Read less"); 
+          $(moreText).slideDown();
+        }
+      
+      });
+      
+      };
+      let anotherFunc = () => {};
+      readMore();
+      anotherFunc();
   }
 };
 
+
+
 $(function() {
-  $(window).load(function() {
+  $(document).ready(function() {
     App.init();
   });
 });
+
