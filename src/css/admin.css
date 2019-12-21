@@ -21,6 +21,33 @@ h2{
     
     color: rgb(112, 40, 94);
 }
+.menu{
+
+    text-align: right;
+  
+}
+
+.banner-message{
+    font-size: 20px;
+    background-color: rgb(213, 230, 173);
+    
+}
+.banner-message input{
+    font-size: 15px;
+    
+    
+}
+.banner-message button{
+background-color: lightblue;
+} 
+
+.start-btn {
+    background-color: rgb(213, 230, 173);
+    padding-right: 100px;
+    padding-top: 3000px;
+    font-size: 20px;
+
+}
 img.rounded-corners{
     border-radius: 50%;
     width: 80px;
@@ -95,7 +122,7 @@ header .header-content .header-content-inner p {
 
     header .header-content .header-content-inner {
         margin-right: auto;
-        margin-left: auto;
+        margin-left: 0px;
         max-width: 1000px;
     }
 
@@ -352,9 +379,10 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn-primary {
+    padding-right: 300px;
     border-color: yellowgreen;
     color: #fff;
-    background-color: yellowgreen;
+    background-color: rgb(122, 50, 205);
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;

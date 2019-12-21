@@ -70,7 +70,6 @@ var App = {
     web3.eth.getCoinbase(function(err, account) {
       if (err === null) {
         App.account = account;
-        debugger;
         $("#accountAddress").html("Your Account: " + account);
      }
     });
@@ -117,7 +116,7 @@ var App = {
   castVote: function() {
     var candidateId = $('#candidatesSelect').val();
     App.contracts.Election.deployed().then(function(instance) {
-      return instance.vote(candidateId, { from: App.account });
+      instance.vote(candidateId, { from: App.account });
     }).then(function(result) {
       // Wait for votes to update
       $("#content").hide();
@@ -129,8 +128,8 @@ var App = {
 
     appUi:function () {
       let = readMore = () => {
-        // $(".myBtn").on("click", function () {
-          $(document).on("click",".myBtn" ,function () {
+         $(".myBtn").on("click", function () {
+          // $(document).on("click",".myBtn" ,function () {
           let parent = $(this).prev("p")[0];
           let dots = $(parent).children(".dots")[0];
         let moreText = $(parent).children(".more")[0];
@@ -149,35 +148,32 @@ var App = {
       });
       
       };
-      let showCandidate = () => {
-        $("#start-btn").on("click", function () {
-        $("#main").load("templates/candidates.html");
-        });
+      // let showCandidate = () => {
+      //   $("#start-btn").on("click", function () {
+      //   $("#main").load("templates/candidates.html");
+      //   });
 
-      };
-      let showResults = () => {
-        $(document).on("click","#start-voting-btn",function () {
-        $("#results").load("templates/results.html",function(){
-        App.render();
+      // };
+      // let showResults = () => {
+      //   $(document).on("click","#start-voting-btn",function () {
+      //   $("#results").load("templates/results.html",function(){
+      //   App.render();
 
 
-        }
-        );
-        });
+      //   }
+      //   );
+      //   });
 
-      };
+      // };
       readMore();
-      showCandidate();
-      showResults();
+      // showCandidate();
+      // showResults();
       
   }
 };
-
-
 
 $(function() {
   $(document).ready(function() {
     App.init();
   });
 });
-

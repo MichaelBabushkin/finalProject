@@ -1,6 +1,5 @@
 pragma solidity^0.5;
 
-
 contract Election {
     struct Candidate {
         uint id;
@@ -19,11 +18,19 @@ contract Election {
     );
 
     constructor() public {
-        addCandidate("Candidate-1");
-        addCandidate("Candidate-2");
+        addCandidate("Ha-Avoda");
+        addCandidate("Kahol-Lavan");
+        addCandidate("Israel-Beytenu");
+        addCandidate("Ha-Likud");
+        addCandidate("Hamahane-Hademocraty");
+        addCandidate("Hareshima-Hameshutefet");
+        addCandidate("Shas");
+        addCandidate("Gimel");
+        addCandidate("Yemina");
+
     }
 
-    function addCandidate (string memory _name) private {
+    function addCandidate (string memory _name) public {
         candidatesCount ++;
         candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
     }
