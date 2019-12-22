@@ -1,4 +1,4 @@
-// 'esversion: 8';
+/*jshint esversion: 6 */
 var App = {
   web3Provider: null,
   contracts: {},
