@@ -148,10 +148,6 @@ var App = {
       });
       
       };
-
-      let adminMenuView = () => {
-        
-      };
       // let showCandidate = () => {
       //   $("#start-btn").on("click", function () {
       //   $("#main").load("templates/candidates.html");
@@ -170,7 +166,6 @@ var App = {
 
       // };
       readMore();
-      adminMenuView();
       // showCandidate();
       // showResults();
       
