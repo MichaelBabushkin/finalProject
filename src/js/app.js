@@ -6,7 +6,11 @@ var App = {
   hasVoted: false,
 
   init: function() {
+<<<<<<< HEAD
     window.ethereum.enable();//saved the world, but doesn't define it self any more :D
+=======
+    //window.ethereum.enable();//saved the world, but doesn't define it self any more :D
+>>>>>>> refs/remotes/origin/master
     App.appUi();
     return App.initWeb3();
   },
@@ -154,4 +158,8 @@ var App = {
 
 $(document).ready(function() {
     App.init();
+<<<<<<< HEAD
   });
+=======
+  });
+>>>>>>> refs/remotes/origin/master
