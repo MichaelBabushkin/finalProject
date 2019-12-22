@@ -89,7 +89,7 @@ contract StandardToken is Token {
 }
 
 
-contract RPMCoin is StandardToken {
+contract VTC is StandardToken {
     address public owner;
 
     mapping (address => uint) public votesToUse;

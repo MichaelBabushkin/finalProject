@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var App = {
   web3Provider: null,
   contracts: {},
@@ -5,7 +6,7 @@ var App = {
   hasVoted: false,
 
   init: function() {
-    window.ethereum.enable();//saved the world
+    window.ethereum.enable();//saved the world, but doesn't define it self any more :D
     App.appUi();
     return App.initWeb3();
   },
@@ -25,8 +26,6 @@ var App = {
     }
     return App.initContract();
   },
-
-  
 
   initContract: function() {
     $.getJSON("Election.json", function(election) {
@@ -51,7 +50,7 @@ var App = {
         fromBlock: 0,
         toBlock: 'latest'
       }).watch(function(error, event) {
-        console.log("event triggered", event)
+        console.log("event triggered", event);
         // Reload when a new vote is recorded
         App.render();
       });
@@ -92,11 +91,11 @@ var App = {
           var voteCount = candidate[2];
 
           // Render candidate Result
-          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>"
+          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>";
           candidatesResults.append(candidateTemplate);
 
           // Render candidate ballot option
-          var candidateOption = "<option value='" + id + "' >" + name + "</ option>"
+          var candidateOption = "<option value='" + id + "' >" + name + "</ option>";
           candidatesSelect.append(candidateOption);
         });
       }
@@ -132,8 +131,7 @@ var App = {
           // $(document).on("click",".myBtn" ,function () {
           let parent = $(this).prev("p")[0];
           let dots = $(parent).children(".dots")[0];
-        let moreText = $(parent).children(".more")[0];
-      
+          let moreText = $(parent).children(".more")[0];
       
         if (!$(dots).is(":visible")) {
           $(dots).show();
@@ -148,32 +146,12 @@ var App = {
       });
       
       };
-      // let showCandidate = () => {
-      //   $("#start-btn").on("click", function () {
-      //   $("#main").load("templates/candidates.html");
-      //   });
 
-      // };
-      // let showResults = () => {
-      //   $(document).on("click","#start-voting-btn",function () {
-      //   $("#results").load("templates/results.html",function(){
-      //   App.render();
-
-
-      //   }
-      //   );
-      //   });
-
-      // };
       readMore();
-      // showCandidate();
-      // showResults();
-      
+
   }
 };
 
-$(function() {
-  $(document).ready(function() {
+$(document).ready(function() {
     App.init();
   });
-});

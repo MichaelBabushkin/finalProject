@@ -3,6 +3,10 @@ body {
     width: 100%;
     height: 100%;
     font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+    background-color: rgb(245, 177, 177);
+}
+#accountAddress{
+    color: #000;
 }
 
 a {
@@ -18,28 +22,44 @@ a:focus {
 }
 
 h2{
-    
-    color: rgb(112, 40, 94);
+    color: rgb(213, 230, 173);
+    font-weight: 900;
 }
 .menu{
-
-    text-align: right;
-  
+text-align: center;
+background: rgba(0,0,0,0.5);
+margin-top: rem;
 }
 
 .banner-message{
     font-size: 20px;
     background-color: rgb(213, 230, 173);
-    
+    text-align: left;
+    height: 40px;
+    padding: 5px 20px;
+    position: relative;
+    border-radius: 3px;
+    margin: 0 20px;
 }
 .banner-message input{
     font-size: 15px;
-    
-    
+    float:right;
+    margin-right: 50px;
+    height:  30px;
 }
 .banner-message button{
-background-color: lightblue;
-} 
+    background-color: rgb(122, 50, 205);
+    float:right;
+    /* max-height: 30px; */
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    border-radius: 3px;
+    color: white;
+    margin: 0 10px;
+    } 
+
+
 
 .start-btn {
     background-color: rgb(213, 230, 173);
