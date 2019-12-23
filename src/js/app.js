@@ -6,11 +6,7 @@ var App = {
   hasVoted: false,
 
   init: function() {
-<<<<<<< HEAD
     window.ethereum.enable();//saved the world, but doesn't define it self any more :D
-=======
-    //window.ethereum.enable();//saved the world, but doesn't define it self any more :D
->>>>>>> refs/remotes/origin/master
     App.appUi();
     return App.initWeb3();
   },
@@ -156,10 +152,44 @@ var App = {
   }
 };
 
+// handle click 
+$("button").on("click", function(){
+	let id = $(this).attr("id");
+  switch (id) {
+  case "1":
+    	alert("This is first: " + id);
+    	break;
+    case "2":
+    	alert("This is second: " + id);
+    	break;
+    case "3":
+    	alert("This is third: " + id);
+      break;
+      case "4":
+        alert("This is first: " + id);
+        break;
+      case "5":
+        alert("This is second: " + id);
+        break;
+      case "6":
+        alert("This is third: " + id);
+        break;
+        case "7":
+          alert("This is first: " + id);
+          break;
+        case "8":
+          alert("This is second: " + id);
+          break;
+        case "9":
+          alert("This is third: " + id);
+          break;
+    default:
+    	alert("No id :\(");
+    break;
+  }
+
+})
+
 $(document).ready(function() {
     App.init();
-<<<<<<< HEAD
   });
-=======
-  });
->>>>>>> refs/remotes/origin/master

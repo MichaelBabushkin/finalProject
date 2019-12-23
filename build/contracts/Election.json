@@ -19919,11 +19919,12 @@
       },
       "links": {},
       "address": "0x568866bF536AEd51Bd25796d77E2bd142edBbd8D",
-      "transactionHash": "0xd34a4236610d26f544a49c5cd3fe24a04af5e8c2de3413bea020e1aee4d46b5f"
+      "transactionHash": "0xb9caac754ec6cbae1575e6139182d89b475f021550eb7a9bb3763e4efcc929bd"
     }
   },
   "schemaVersion": "3.0.19",
-  "updatedAt": "2019-12-22T19:46:02.930Z",
+  "updatedAt": "2019-12-23T12:09:15.155Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },
