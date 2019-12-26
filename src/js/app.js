@@ -169,23 +169,30 @@ $(".menu button").on("click", function(){
         alert("This is first: " + id);
         break;
       case "5":
-        alert("This is second: " + id);
+        let input=$(this).prev("input").val();
+        let param1=input[0];
+        App.contracts.VTC.deployed().then(function(instance) {
+          electionInstance = instance;
+          debugger;
+          // return electionInstance.candidatesCount();
+          alert("Ninja: "|+" "+  electionInstance.increaseSupply(param1) );
+        });
         break;
       case "6":
         alert("This is third: " + id);
         break;
         case "7":
-          let input=$(this).prev("input").val().split(",");
+          // let input=$(this).prev("input").val().split(",");
+          // let input=$(this).prev("input").val();
+          // let param1=input[0];
+         
           
-          let param1=input[0];
-          let param2=input[1];
-          
-          App.contracts.Election.deployed().then(function(instance) {
-            electionInstance = instance;
-            debugger;
-            // return electionInstance.candidatesCount();
-            alert("Ninja: "|+" "+  electionInstance.transferAndAddVoterAddress(param1,param2) );
-          });
+          // App.contracts.VTC.deployed().then(function(instance) {
+          //   electionInstance = instance;
+          //   debugger;
+          //   // return electionInstance.candidatesCount();
+          //   alert("Ninja: "|+" "+  electionInstance.transferAndAddVoterAddress(param1) );
+          // });
         break;
         case "8":
           alert("This is second: " + id);
