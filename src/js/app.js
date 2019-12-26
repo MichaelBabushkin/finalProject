@@ -101,7 +101,7 @@ var App = {
       }
       return electionInstance.voters(App.account);
     }).then(function(hasVoted) {
-      // Do not allow a user to vote
+      // Do not allow a user to vote   /////// shuld be replaced with token withdrawn
       if(hasVoted) {
         $('form').hide();
       }
@@ -153,7 +153,7 @@ var App = {
 };
 
 // handle click 
-$("button").on("click", function(){
+$(".menu button").on("click", function(){
 	let id = $(this).attr("id");
   switch (id) {
   case "1":
@@ -175,8 +175,18 @@ $("button").on("click", function(){
         alert("This is third: " + id);
         break;
         case "7":
-          alert("This is first: " + id);
-          break;
+          let input=$(this).prev("input").val().split(",");
+          
+          let param1=input[0];
+          let param2=input[1];
+          
+          App.contracts.Election.deployed().then(function(instance) {
+            electionInstance = instance;
+            debugger;
+            // return electionInstance.candidatesCount();
+            alert("Ninja: "|+" "+  electionInstance.transferAndAddVoterAddress(param1,param2) );
+          });
+        break;
         case "8":
           alert("This is second: " + id);
           break;

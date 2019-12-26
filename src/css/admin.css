@@ -41,8 +41,6 @@ margin-top: rem;
     border-radius: 3px;
     margin: 0 20px;
 }
-=======
->>>>>>> refs/remotes/origin/master
 .banner-message input{
     font-size: 15px;
     float:right;
@@ -759,9 +757,6 @@ fieldset[disabled] .btn-default.active {
     border-color: yellowgreen;
     color: #fff;
     background-color: rgb(122, 50, 205);
-=======
-    background-color: rgb(122, 50, 205);
->>>>>>> refs/remotes/origin/master
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
