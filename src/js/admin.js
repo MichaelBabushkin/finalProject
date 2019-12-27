@@ -1,5 +1,5 @@
 // find elements
-var App = {
+var Admin = {
     web3Provider: null,
     contracts: {},
     account: '0x0',
@@ -7,42 +7,42 @@ var App = {
   
     init: function() {
       window.ethereum.enable();//saved the world, but doesn't define it self any more :D
-      App.appUi();
-      return App.initWeb3();
+      Admin.adminUi();
+      return Admin.initWeb3();
     },
   
     initWeb3: function() {
       // TODO: refactor conditional
       if (typeof web3 !== 'undefined') {
         // If a web3 instance is already provided by Meta Mask.
-        App.web3Provider = web3.currentProvider;
+        Admin.web3Provider = web3.currentProvider;
         web3 = new Web3(web3.currentProvider);
       //  web3.eth.defaultAccount = web3.eth.accounts[0];
       } else {
         // Specify default instance if no web3 instance provided
-        App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
-        web3 = new Web3(App.web3Provider);
+        Admin.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+        web3 = new Web3(Admin.web3Provider);
         //web3.eth.defaultAccount = web3.eth.accounts[0];
       }
-      return App.initContract();
+      return Admin.initContract();
     },
   
     initContract: function() {
       $.getJSON("VTC.json", function(election) {
         // Instantiate a new truffle contract from the artifact
-        App.contracts.Election = TruffleContract(election);
+        Admin.contracts.Election = TruffleContract(election);
         // Connect provider to interact with contract
-        App.contracts.Election.setProvider(App.web3Provider);
+        Admin.contracts.Election.setProvider(Admin.web3Provider);
   
-        App.listenForEvents();
+        Admin.listenForEvents();
   
-        return App.render();
+        return Admin.render();
       });
     },
   
     // Listen for events emitted from the contract
     listenForEvents: function() {
-      App.contracts.VTC.deployed().then(function(instance) {
+      Admin.contracts.VTC.deployed().then(function(instance) {
         // Restart Chrome if you are unable to receive this event
         // This is a known issue with Metamask
         // https://github.com/MetaMask/metamask-extension/issues/2393
@@ -52,12 +52,13 @@ var App = {
         }).watch(function(error, event) {
           console.log("event triggered", event);
           // Reload when a new vote is recorded
-          App.render();
+          Admin.render();
         });
       });
     },
+    
 
-    appUi:function () {
+    adminUi:function () {
         let = readMore = () => {
            $(".myBtn").on("click", function () {
             // $(document).on("click",".myBtn" ,function () {
@@ -103,7 +104,7 @@ var App = {
         case "5":
           let input=$(this).prev("input").val();
           let param1=input[0];
-          App.contracts.VTC.deployed().then(function(instance) {
+          Admin.contracts.VTC.deployed().then(function(instance) {
             electionInstance = instance;
             debugger;
             // return electionInstance.candidatesCount();
@@ -119,7 +120,7 @@ var App = {
             // let param1=input[0];
            
             
-            // App.contracts.VTC.deployed().then(function(instance) {
+            // Admin.contracts.VTC.deployed().then(function(instance) {
             //   electionInstance = instance;
             //   debugger;
             //   // return electionInstance.candidatesCount();
@@ -140,7 +141,7 @@ var App = {
   })
   
   $(document).ready(function() {
-      App.init();
+      Admin.init();
     });
 
 
