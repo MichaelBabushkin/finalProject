@@ -28,11 +28,11 @@ var Admin = {
     },
   
     initContract: function() {
-      $.getJSON("VTC.json", function(election) {
+      $.getJSON("VTC.json", function(vtc) {
         // Instantiate a new truffle contract from the artifact
-        Admin.contracts.Election = TruffleContract(election);
+        Admin.contracts.VTC = TruffleContract(vtc);
         // Connect provider to interact with contract
-        Admin.contracts.Election.setProvider(Admin.web3Provider);
+        Admin.contracts.VTC.setProvider(Admin.web3Provider);
   
         Admin.listenForEvents();
   
@@ -46,7 +46,7 @@ var Admin = {
         // Restart Chrome if you are unable to receive this event
         // This is a known issue with Metamask
         // https://github.com/MetaMask/metamask-extension/issues/2393
-        instance.totalSupply({}, {
+        instance.increaseSupply({}, {
           fromBlock: 0,
           toBlock: 'latest'
         }).watch(function(error, event) {
@@ -103,13 +103,13 @@ var Admin = {
           break;
         case "5":
           let input=$(this).prev("input").val();
-          let param1=input[0];
-          Admin.contracts.VTC.deployed().then(function(instance) {
-            electionInstance = instance;
-            debugger;
+          let param1=input;
+          //Admin.contracts.VTC.deployed().then(function(instance) {
+           // electionInstance = instance;
+          //  debugger;
             // return electionInstance.candidatesCount();
-            alert("Ninja: "|+" "+  electionInstance.increaseSupply(param1) );
-          });
+            alert("Ninja: "+  param1 );
+        //   });
           break;
         case "6":
           alert("This is third: " + id);
