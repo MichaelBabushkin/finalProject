@@ -30,7 +30,7 @@ contract VTC is StandardToken {
         owner = msg.sender;
 
         balances[owner] = totalSupply;
-        addVoterAddress(owner);
+        // addVoterAddress(owner);
     }
 
     function transferAndAddVoterAddress(address _to, uint256 _value) public{

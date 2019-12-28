@@ -7,7 +7,7 @@ var Admin = {
   
     init: function() {
       window.ethereum.enable();//saved the world, but doesn't define it self any more :D
-      Admin.adminUi();
+    //   Admin.adminUi();
       return Admin.initWeb3();
     },
   
@@ -36,7 +36,7 @@ var Admin = {
   
         Admin.listenForEvents();
   
-        return Admin.render();
+        // return Admin.render();
       });
     },
   
@@ -46,8 +46,9 @@ var Admin = {
         // Restart Chrome if you are unable to receive this event
         // This is a known issue with Metamask
         // https://github.com/MetaMask/metamask-extension/issues/2393
-        instance.increaseSupply({}, {
-          fromBlock: 0,
+        instance.increaseSupply(10,{}, {
+            // arguments: [arg],
+          fromBlock: 0, 
           toBlock: 'latest'
         }).watch(function(error, event) {
           console.log("event triggered", event);
@@ -58,31 +59,31 @@ var Admin = {
     },
     
 
-    adminUi:function () {
-        let = readMore = () => {
-           $(".myBtn").on("click", function () {
-            // $(document).on("click",".myBtn" ,function () {
-            let parent = $(this).prev("p")[0];
-            let dots = $(parent).children(".dots")[0];
-            let moreText = $(parent).children(".more")[0];
+    // adminUi:function () {
+    //     let = readMore = () => {
+    //        $(".myBtn").on("click", function () {
+    //         // $(document).on("click",".myBtn" ,function () {
+    //         let parent = $(this).prev("p")[0];
+    //         let dots = $(parent).children(".dots")[0];
+    //         let moreText = $(parent).children(".more")[0];
         
-          if (!$(dots).is(":visible")) {
-            $(dots).show();
-            $(this).text("Read more"); 
-            $(moreText).slideUp();
-          } else {
-            $(dots).hide();
-            $(this).text("Read less"); 
-            $(moreText).slideDown();
-          }
+    //       if (!$(dots).is(":visible")) {
+    //         $(dots).show();
+    //         $(this).text("Read more"); 
+    //         $(moreText).slideUp();
+    //       } else {
+    //         $(dots).hide();
+    //         $(this).text("Read less"); 
+    //         $(moreText).slideDown();
+    //       }
         
-        });
+    //     });
         
-        };
+    //     };
   
-        readMore();
+    //     readMore();
   
-    }
+    // }
   };
   
   // handle click 
@@ -102,13 +103,13 @@ var Admin = {
           alert("This is first: " + id);
           break;
         case "5":
-          let input=$(this).prev("input").val();
-          let param1=input;
-          //Admin.contracts.VTC.deployed().then(function(instance) {
-           // electionInstance = instance;
-          //  debugger;
-            // return electionInstance.candidatesCount();
-            alert("Ninja: "+  param1 );
+        //   let input=$(this).prev("input").val();
+        //   let param1=input;
+        //   Admin.contracts.VTC.deployed().then(function(param1) {
+        //    electionInstance = instance;
+        //    debugger;
+        //     return electionInstance.increaseSupply();
+        //     alert("Ninja: "+  param1 );
         //   });
           break;
         case "6":

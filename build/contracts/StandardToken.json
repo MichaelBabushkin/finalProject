@@ -4591,12 +4591,13 @@
         }
       },
       "links": {},
-      "address": "0x5d42Bf281d3DF625E77e1Ef6F44d70299179f86e",
-      "transactionHash": "0x9f2725fb31ab4aaa85454e828fa6177c04745b346c0e626f5bbe42b65eeac0e3"
+      "address": "0xF5c0d21c6D3754C3aECF225EA47B9738e02a1876",
+      "transactionHash": "0x7b9b2c76402ab18535786b4d8c9acb8bafa7a1b881f8c221258255b8e48d64e3"
     }
   },
   "schemaVersion": "3.0.19",
-  "updatedAt": "2019-12-27T08:51:47.434Z",
+  "updatedAt": "2019-12-28T16:12:09.811Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },
