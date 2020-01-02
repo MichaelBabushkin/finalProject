@@ -1,7 +1,4 @@
 var Election = artifacts.require("./Election.sol");
-var Token = artifacts.require("./Token.sol");
-var StandardToken = artifacts.require("./StandardToken.sol");
-var VTC = artifacts.require("./VTC.sol");
 var context = artifacts.require("./context.sol");
 var ElectionToken = artifacts.require("./ElectionToken.sol");
 var erc20 = artifacts.require("./erc20.sol");
@@ -12,9 +9,7 @@ var safeMath = artifacts.require("./safeMath.sol");
 
 module.exports = function(deployer) {
   deployer.deploy(Election);
-  deployer.deploy(StandardToken);
-  deployer.deploy(VTC);
-  deployer.deploy(context);
+  // deployer.deploy(context);
   deployer.deploy(ElectionToken);
   deployer.deploy(erc20);
   deployer.deploy(erc20Detailed);
