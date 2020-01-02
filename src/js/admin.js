@@ -34,56 +34,30 @@ var Admin = {
         // Connect provider to interact with contract
         Admin.contracts.VTC.setProvider(Admin.web3Provider);
   
-        Admin.listenForEvents();
+        //Admin.listenForEvents();
   
         // return Admin.render();
       });
     },
   
     // Listen for events emitted from the contract
-    listenForEvents: function() {
-      Admin.contracts.VTC.deployed().then(function(instance) {
-        // Restart Chrome if you are unable to receive this event
-        // This is a known issue with Metamask
-        // https://github.com/MetaMask/metamask-extension/issues/2393
-        instance.increaseSupply(10,{}, {
-            // arguments: [arg],
-          fromBlock: 0, 
-          toBlock: 'latest'
-        }).watch(function(error, event) {
-          console.log("event triggered", event);
-          // Reload when a new vote is recorded
-          Admin.render();
-        });
-      });
-    },
-    
-
-    // adminUi:function () {
-    //     let = readMore = () => {
-    //        $(".myBtn").on("click", function () {
-    //         // $(document).on("click",".myBtn" ,function () {
-    //         let parent = $(this).prev("p")[0];
-    //         let dots = $(parent).children(".dots")[0];
-    //         let moreText = $(parent).children(".more")[0];
-        
-    //       if (!$(dots).is(":visible")) {
-    //         $(dots).show();
-    //         $(this).text("Read more"); 
-    //         $(moreText).slideUp();
-    //       } else {
-    //         $(dots).hide();
-    //         $(this).text("Read less"); 
-    //         $(moreText).slideDown();
-    //       }
-        
+    // listenForEvents: function() {
+    //   Admin.contracts.VTC.deployed().then(function(instance) {
+    //     // Restart Chrome if you are unable to receive this event
+    //     // This is a known issue with Metamask
+    //     // https://github.com/MetaMask/metamask-extension/issues/2393
+    //     instance.increaseSupply(10,{}, {
+    //         // arguments: [arg],
+    //       fromBlock: 0, 
+    //       toBlock: 'latest'
+    //     }).watch(function(error, event) {
+    //       console.log("event triggered", event);
+    //       // Reload when a new vote is recorded
+    //       Admin.render();
     //     });
-        
-    //     };
+    //   });
+    // },
   
-    //     readMore();
-  
-    // }
   };
   
   // handle click 
@@ -103,14 +77,19 @@ var Admin = {
           alert("This is first: " + id);
           break;
         case "5":
-        //   let input=$(this).prev("input").val();
-        //   let param1=input;
-        //   Admin.contracts.VTC.deployed().then(function(param1) {
+          let input=$(this).prev("input").val();
+          let param1=input;
+          Admin.contracts.VTC.deployed().then(function(instance) {
+            instance.increaseSupply(param1,{}, {
+                    //    arguments: [arg],
+                      fromBlock: 0, 
+                      toBlock: 'latest'
+                    })
+
         //    electionInstance = instance;
-        //    debugger;
-        //     return electionInstance.increaseSupply();
-        //     alert("Ninja: "+  param1 );
-        //   });
+        //   //  return electionInstance.increaseSupply();
+        //     alert("Ninja: "+ electionInstance.increaseSupply(param1,{}, {}).totalSupply);
+          });
           break;
         case "6":
           alert("This is third: " + id);
