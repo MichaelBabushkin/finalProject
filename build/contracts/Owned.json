@@ -2806,7 +2806,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.19",
-  "updatedAt": "2020-01-03T11:23:34.176Z",
+  "updatedAt": "2020-01-03T13:56:58.777Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "The Ownable contract has an owner address, and provides basic authorization control functions, this simplifies the implementation of \"user permissions\".",
