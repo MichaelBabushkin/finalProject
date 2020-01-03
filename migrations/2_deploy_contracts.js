@@ -9,12 +9,8 @@ var safeMath = artifacts.require("./safeMath.sol");
 
 module.exports = function(deployer) {
   deployer.deploy(Election);
-  // deployer.deploy(context);
   deployer.deploy(ElectionToken);
   deployer.deploy(erc20);
-  deployer.deploy(erc20Detailed);
-  deployer.deploy(ierc20);
-  deployer.deploy(Owned);
   deployer.deploy(safeMath);
 };
 

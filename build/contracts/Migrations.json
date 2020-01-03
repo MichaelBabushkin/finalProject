@@ -1374,11 +1374,12 @@
       "events": {},
       "links": {},
       "address": "0x995eB53e93Ef8275bF01B7f52bC6b4Fc5fc35314",
-      "transactionHash": "0x9ac859fa3a3f04eda5884b8d6a94f981be458b83335109b74fadf9925a91320b"
+      "transactionHash": "0x04d835e1b20db6745d9a1e61b67a082e65ed9d1ea0d273033165dc7864c1fd09"
     }
   },
   "schemaVersion": "3.0.19",
-  "updatedAt": "2020-01-02T21:08:21.852Z",
+  "updatedAt": "2020-01-03T11:23:34.192Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },
