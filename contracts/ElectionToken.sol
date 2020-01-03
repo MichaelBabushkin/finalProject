@@ -1,8 +1,8 @@
 pragma solidity >=0.4.22 <0.6.0;
 
-import 'erc20.sol';
-import 'erc20Detailed.sol';
-import 'Owned.sol';
+import  "./erc20.sol";
+import  "./erc20Detailed.sol";
+import  "./Owned.sol";
 
 contract ElectionToken is erc20, erc20Detailed, Owned{
 
