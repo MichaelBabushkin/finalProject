@@ -18,11 +18,18 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     uint256 private expiration;    // contract expiration time *** 1577971200 =2/1/2020 13:20:00
     uint256 private start;         // contract start time
 
-    constructor()erc20Detailed("VotingToken", "VTC", 0) public{    
-     
+    /*constructor(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) erc20Detailed("VotingToken", "VTC", 0)public{    //_initialTokenSupply = number of voters
+        _mint(msg.sender, _initialSupply);  
+        addVotersList(_voterAddresses);
+        addCandidatesList(_candidateAddresses);
+        distributeTokens();
+        setElectionStartTime(_start);
+        setElectionExpirationTime(_end);
+    }*/
+    constructor() erc20Detailed("VotingToken", "VTC", 0)public onlyOwner{    //_initialTokenSupply = number of voters
     }
-    //_initialTokenSupply = number of voters
-    function cConstructor(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end)  public{   
+
+    function initContract(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) public onlyOwner{
         _mint(msg.sender, _initialSupply);  
         addVotersList(_voterAddresses);
         addCandidatesList(_candidateAddresses);
