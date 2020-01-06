@@ -33,63 +33,44 @@ var Admin = {
         Admin.contracts.ElectionToken = TruffleContract(electiontoken);
         // Connect provider to interact with contract
         Admin.contracts.ElectionToken.setProvider(Admin.web3Provider);
-  
+
         //Admin.listenForEvents();
   
         // return Admin.render();
       });
     },
-  
-    // Listen for events emitted from the contract
-    // listenForEvents: function() {
-    //   Admin.contracts.ElectionToken.deployed().then(function(instance) {
-    //     // Restart Chrome if you are unable to receive this event
-    //     // This is a known issue with Metamask
-    //     // https://github.com/MetaMask/metamask-extension/issues/2393
-    //     instance.increaseSupply(10,{}, {
-    //         // arguments: [arg],
-    //       fromBlock: 0, 
-    //       toBlock: 'latest'
-    //     }).watch(function(error, event) {
-    //       console.log("event triggered", event);
-    //       // Reload when a new vote is recorded
-    //       Admin.render();
-    //     });
-    //   });
-    // },
-  
+
+    initContractParams: function() {
+      var initialSupply = $("#supplyInput").val();   // get input from html input element
+      initialSupply = Number(initialSupply);
+
+      var voterAddresses = $("#votersInput").val();
+      voterAddresses = JSON.parse(voterAddresses);
+      var candidateAddresses = $("#candidatesInput").val();
+      candidateAddresses = JSON.parse(candidateAddresses);
+
+      var startDate = $("#dateTimeStart").val();   // get input from html input element
+      var endDate = $("#dateTimeEnd").val();
+
+      startDate = new Date(startDate);      // convert to date format
+      endDate = new Date(endDate);
+      startDate = Math.floor(startDate/1000); // omit last 3 digits
+      endDate = Math.floor(endDate/1000);
+
+      Admin.contracts.ElectionToken.deployed().then(function(instance) {
+        instance.initializeContract(initialSupply, voterAddresses, candidateAddresses, startDate, endDate);
+      });
+    }
   };
   
 
-  $(document).ready(function() {
-      Admin.init();
-    });
-
-$(document).ready(function () {
-
-    $('#electionForm').on("submit",function(event) {
-      event.preventDefault();
-      // get all the inputs into an array.
-      var $inputs = $('#electionForm :input');
-  
-      // not sure if you wanted this, but I thought I'd add it.
-      // get an associative array of just the values.
-      var values = {};
-      $inputs.each(function(el) {
-       
-        if (el<5) {
-          values["input" + el] = $(this).val();
-        }
-         
-      });
-      Admin.contracts.ElectionToken.deployed().then(function(instance) {
-        instance.initContract(values.input1, values.input2, values.input3, 1578145360, 1578245360)
-          ,{}, {
-                 // arguments: [arg],
-                fromBlock: 0, 
-                toBlock: 'latest'
-              }
-      });
+$(document).ready(function() {
+    Admin.init();
   });
 
+$(document).ready(function () {
+    $('#electionForm').on("submit",function(event) {
+      event.preventDefault();
+      Admin.initContractParams();
+  });
 })
