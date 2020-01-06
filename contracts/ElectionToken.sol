@@ -19,7 +19,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     uint256 private start;         // contract start time
 
     /*constructor(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) erc20Detailed("VotingToken", "VTC", 0)public{    //_initialTokenSupply = number of voters
-        _mint(msg.sender, _initialSupply);  
+        mint(msg.sender, _initialSupply);
         addVotersList(_voterAddresses);
         addCandidatesList(_candidateAddresses);
         distributeTokens();
@@ -29,8 +29,8 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     constructor() erc20Detailed("VotingToken", "VTC", 0)public onlyOwner{    //_initialTokenSupply = number of voters
     }
 
-    function initContract(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) public onlyOwner{
-        _mint(msg.sender, _initialSupply);  
+    function initializeContract(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) public onlyOwner{
+        _mint(msg.sender, _initialSupply);
         addVotersList(_voterAddresses);
         addCandidatesList(_candidateAddresses);
         distributeTokens();
@@ -109,7 +109,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
 
     function endElection() private {        // if voter didnt vote set him as if he did
         for(uint i = 0; i < voterAddresses.length; i++){
-            if(!voted[voterAddresses[i]]){  
+            if(!voted[voterAddresses[i]]){
                 voted[voterAddresses[i]] = true;
             }
         }
@@ -122,7 +122,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     function setElectionExpirationTime(uint _expiration) public onlyOwner{
         expiration = _expiration;
     }
-    
+
     function displayTime() public view returns(uint256, uint256, uint256){
         uint256 timeNow = now;
         return (timeNow, start, expiration);
