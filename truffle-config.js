@@ -7,17 +7,24 @@ module.exports = {
         return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/ee7f14f8e4ef43dab2769edfcda8445f")
       },
       network_id: 3
+    },
+    development: {
+      host: "127.0.0.1",
+      port: 7545,
+      network_id: "*" // Match any network id
     }
   }
 };
-// module.exports = {
-//   // See <http://truffleframework.com/docs/advanced/configuration>
-//   // for more about customizing your Truffle configuration!
-//   networks: {
-//     development: {
-//       host: "127.0.0.1",
-//       port: 7545,
-//       network_id: "*" // Match any network id
-//     }
-//   }
-// };
+/*
+module.exports = {
+   // See <http://truffleframework.com/docs/advanced/configuration>
+   // for more about customizing your Truffle configuration!
+  networks: {
+    development: {
+      host: "127.0.0.1",
+      port: 7545,
+      network_id: "*" // Match any network id
+    }
+  }
+};
+*/
