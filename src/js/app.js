@@ -27,6 +27,7 @@ var App = {
     return App.initContract();
   },
 
+
   initContract: function() {
     $.getJSON("Election.json", function(election) {
       // Instantiate a new truffle contract from the artifact
@@ -34,9 +35,21 @@ var App = {
       // Connect provider to interact with contract
       App.contracts.Election.setProvider(App.web3Provider);
 
+      // App.listenForEvents();
+
+      // return App.render();
+    });
+    $.getJSON("ElectionToken.json", function(electiontoken) {
+      // Instantiate a new truffle contract from the artifact
+      App.contracts.ElectionToken = TruffleContract(electiontoken);
+      // Connect provider to interact with contract
+      App.contracts.ElectionToken.setProvider(App.web3Provider);
       App.listenForEvents();
 
       return App.render();
+      // App.listenForEvents();
+
+      // return App.render();
     });
   },
 
@@ -72,6 +85,11 @@ var App = {
         $("#accountAddress").html("Your Account: " + account);
      }
     });
+////test function
+    // App.contracts.ElectionToken.deployed().then(function(instancet) {
+    
+  
+    // });
 
     // Load contract data
     App.contracts.Election.deployed().then(function(instance) {
@@ -151,61 +169,6 @@ var App = {
 
   }
 };
-
-// handle click 
-$(".menu button").on("click", function(){
-	let id = $(this).attr("id");
-  switch (id) {
-  case "1":
-    	alert("This is first: " + id);
-    	break;
-    case "2":
-    	alert("This is second: " + id);
-    	break;
-    case "3":
-    	alert("This is third: " + id);
-      break;
-      case "4":
-        alert("This is first: " + id);
-        break;
-      case "5":
-        let input=$(this).prev("input").val();
-        let param1=input[0];
-        App.contracts.VTC.deployed().then(function(instance) {
-          electionInstance = instance;
-          debugger;
-          // return electionInstance.candidatesCount();
-          alert("Ninja: "|+" "+  electionInstance.increaseSupply(param1) );
-        });
-        break;
-      case "6":
-        alert("This is third: " + id);
-        break;
-        case "7":
-          // let input=$(this).prev("input").val().split(",");
-          // let input=$(this).prev("input").val();
-          // let param1=input[0];
-         
-          
-          // App.contracts.VTC.deployed().then(function(instance) {
-          //   electionInstance = instance;
-          //   debugger;
-          //   // return electionInstance.candidatesCount();
-          //   alert("Ninja: "|+" "+  electionInstance.transferAndAddVoterAddress(param1) );
-          // });
-        break;
-        case "8":
-          alert("This is second: " + id);
-          break;
-        case "9":
-          alert("This is third: " + id);
-          break;
-    default:
-    	alert("No id :\(");
-    break;
-  }
-
-})
 
 $(document).ready(function() {
     App.init();

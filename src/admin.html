@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,19 +49,19 @@
                   <h2>Initialize Elections </h2>
                   <form action="#" id="electionForm" method="POST">
                  <div class="banner-message">
-                    Add Supply: <input type=text placeholder="uint256_value" > 
+                    Add Supply: <input type=text id="supplyInput" placeholder="uint256_value" > 
                     </div><br>
                  <div class="banner-message">
-                    Add Voters<input type=text placeholder="address[]">  
+                    Add Voters<input type=text id="votersInput" placeholder="address[]">  
                     </div><br>
                  <div class="banner-message">
-                      Add Candidates<input type=text placeholder="address[]" >
+                      Add Candidates<input type=text id="candidatesInput" placeholder="address[]" >
                       </div><br>
                  <div class="banner-message">
-                        Time of election start:<input type="datetime-local"  value="2018-02-25T19:24"/> 
+                        Time of election start:<input type="datetime-local" id="dateTimeStart" value="2020-01-25T07:00"/> 
                         </div><br>
                 <div class="banner-message">
-                          Time of election end:<input type="datetime-local"  value="2018-02-25T19:24"/> 
+                          Time of election end:<input type="datetime-local" id="dateTimeEnd" value="2020-01-25T20:00"/> 
                           
               </div>
               <div class="row">   
@@ -119,3 +120,4 @@
    
 </body>
 </html>
+
