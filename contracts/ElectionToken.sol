@@ -9,6 +9,8 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     address[] public voterAddresses;
     address[] public candidateAddresses;
 
+    uint public candidatesCount;
+
     mapping (address => bool) voterAddressInitialized;
     mapping (address => bool) candidateAddressInitialized;
 
@@ -55,6 +57,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
 
     function addCandidateAddress(address _address) internal onlyOwner{
         candidateAddressInitialized[_address] = true;
+        candidatesCount ++;
         candidateAddresses.push(_address);
     }
 
