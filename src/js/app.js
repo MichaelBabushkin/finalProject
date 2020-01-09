@@ -28,24 +28,46 @@ var App = {
   },
 
   initContract: function() {
-    $.getJSON("Election.json", function(election) {
+    $.getJSON("ElectionToken.json", function(electiontoken) {
       // Instantiate a new truffle contract from the artifact
-      App.contracts.Election = TruffleContract(election);
+      App.contracts.ElectionToken = TruffleContract(electiontoken);
       // Connect provider to interact with contract
-      App.contracts.Election.setProvider(App.web3Provider);
+      App.contracts.ElectionToken.setProvider(App.web3Provider);
 
-      App.listenForEvents();
+      App.checkContractAddress();
+
+      //App.listenForEvents();
 
       return App.render();
     });
   },
 
+  checkContractAddress: function() {
+    //var contractAddressInput = $("#votersInput").val();
+    console.log('Im in');
+    var contractAddressInput = document.getElementById("contractAddressInput");
+    contractAddressInput.select();
+    contractAddressInput.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    if(web3.isAddress(contractAddressInput.value))
+    {
+      //window.location.assign("https://www.w3schools.com");
+      console.log('address exist');
+      window.location.assign('candidates.html');
+    }else{
+      console.log('address do noooooooot exist');
+      modal.style.display = "block";
+    }
+    //alert("Copied the address: " + contractAddressInput.value);
+  },
+
   // Listen for events emitted from the contract
   listenForEvents: function() {
-    App.contracts.Election.deployed().then(function(instance) {
+    App.contracts.ElectionToken.at(contractAddressInput.value).then(function(instance) {
       // Restart Chrome if you are unable to receive this event
       // This is a known issue with Metamask
       // https://github.com/MetaMask/metamask-extension/issues/2393
+      console.log('inside eventlisten');
       instance.votedEvent({}, {
         fromBlock: 0,
         toBlock: 'latest'
@@ -61,7 +83,7 @@ var App = {
     var electionInstance;
     var loader = $("#loader");
     var content = $("#content");
-
+    console.log('in render');
     loader.show();
     content.hide();
 
@@ -74,30 +96,29 @@ var App = {
     });
 
     // Load contract data
-    App.contracts.Election.deployed().then(function(instance) {
+    console.log('almost in');
+    App.contracts.ElectionToken.at(contractAddressInput.value).then(function(instance) {
+      console.log('Im in');
       electionInstance = instance;
-      return electionInstance.candidatesCount();
+      return electionInstance.candidatesCount();    // get amount of candidates 
     }).then(function(candidatesCount) {
       var candidatesResults = $("#candidatesResults");
-      candidatesResults.empty();
+      candidatesResults.empty();  // Remove the content of element
 
       var candidatesSelect = $('#candidatesSelect');
       candidatesSelect.empty();
 
       for (var i = 1; i <= candidatesCount; i++) {
-        electionInstance.candidates(i).then(function(candidate) {
-          var id = candidate[0];
-          var name = candidate[1];
-          var voteCount = candidate[2];
+          var candidateAddress = electionInstance.candidateAddresses(i);  // Get candidate address
+          var voteCount = electionInstance.balanceOf(candidateAddress);   // Get balance by candidate address
 
           // Render candidate Result
-          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>";
+          var candidateTemplate = "<tr><th>" + i + "</th><td>" + candidateAddress + "</td><td>" + voteCount + "</td></tr>";
           candidatesResults.append(candidateTemplate);
 
           // Render candidate ballot option
-          var candidateOption = "<option value='" + id + "' >" + name + "</ option>";
+          var candidateOption = "<option value='" + i + "' >" + candidateAddress + "</ option>";
           candidatesSelect.append(candidateOption);
-        });
       }
       return electionInstance.voters(App.account);
     }).then(function(hasVoted) {
@@ -114,7 +135,7 @@ var App = {
 
   castVote: function() {
     var candidateId = $('#candidatesSelect').val();
-    App.contracts.Election.deployed().then(function(instance) {
+    App.contracts.ElectionToken.deployed().then(function(instance) {
       instance.vote(candidateId, { from: App.account });
     }).then(function(result) {
       // Wait for votes to update
@@ -125,30 +146,26 @@ var App = {
     });
   },
 
-    appUi:function () {
-      let = readMore = () => {
-         $(".myBtn").on("click", function () {
+  appUi:function () {
+    let = readMore = () => {
+        $(".myBtn").on("click", function () {
           // $(document).on("click",".myBtn" ,function () {
           let parent = $(this).prev("p")[0];
           let dots = $(parent).children(".dots")[0];
           let moreText = $(parent).children(".more")[0];
       
-        if (!$(dots).is(":visible")) {
-          $(dots).show();
-          $(this).text("Read more"); 
-          $(moreText).slideUp();
-        } else {
-          $(dots).hide();
-          $(this).text("Read less"); 
-          $(moreText).slideDown();
-        }
-      
-      });
-      
-      };
-
-      readMore();
-
+          if (!$(dots).is(":visible")) {
+            $(dots).show();
+            $(this).text("Read more"); 
+            $(moreText).slideUp();
+          } else {
+            $(dots).hide();
+            $(this).text("Read less"); 
+            $(moreText).slideDown();
+          }
+        });     
+    };
+    readMore();
   }
 };
 
@@ -207,6 +224,37 @@ $(".menu button").on("click", function(){
 
 })
 
-$(document).ready(function() {
+/*$(document).ready(function() {
     App.init();
+  });*/
+
+
+
+/**********NEW**********/
+/*
+$(document).ready(function () {
+  console.log('Kannnnnnn');
+  $('#start-btn').on("submit",function(event) {
+    event.preventDefault();
+    Admin.init();
   });
+});
+*/
+
+function checkContractAddress() {
+  console.log('Kannnnnnn');
+  //$('#start-btn').on("button",function(event) {
+   // event.preventDefault();
+    App.init();
+  //});
+}
+/*function checkContractAddress() {
+  //var contractAddressInput = $("#votersInput").val();
+  var contractAddressInput = document.getElementById("contractAddressInput");
+  contractAddressInput.select();
+  contractAddressInput.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  web3.utils.isAddress(contractAddressInput.value);
+  //alert("Copied the address: " + contractAddressInput.value);
+}*/
+
