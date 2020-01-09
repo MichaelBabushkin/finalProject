@@ -3,6 +3,7 @@ var Admin = {
   contracts: {},
   account: '0x0',
   hasVoted: false,
+  contractAddress: null,
 
   init: function() {
     window.ethereum.enable();//saved the world, but doesn't define it self any more :D
@@ -60,6 +61,11 @@ var Admin = {
     //Admin.contracts.ElectionToken.new().then(function(instance) {
     Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, candidateAddresses, startDate, endDate).then(function(instance) {
       console.log(instance.address);
+      Admin.contractAddress = instance.address;
+      console.log(Admin.contractAddress);
+      // When the transaction ends, open the modal 
+      modal.style.display = "block";
+      document.getElementById("contractAdd").innerHTML = instance.address;
     });
   }
 };
@@ -70,3 +76,28 @@ $(document).ready(function () {
     Admin.init();
   });
 });
+
+
+
+// Get the modal
+var modal = document.getElementById("myModal");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+// copy contract address to clipboard
+function myCopy() {
+  var copyText = document.getElementById("contractAdd");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied the address: " + copyText.value);
+}
