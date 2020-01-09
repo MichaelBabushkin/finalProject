@@ -1380,11 +1380,11 @@
       "events": {},
       "links": {},
       "address": "0x995eB53e93Ef8275bF01B7f52bC6b4Fc5fc35314",
-      "transactionHash": "0xac696a70ac227f7039061341dddfa58e8b5bfb2c49de9f66919477d575a13ca3"
+      "transactionHash": "0x04d835e1b20db6745d9a1e61b67a082e65ed9d1ea0d273033165dc7864c1fd09"
     }
   },
   "schemaVersion": "3.0.19",
-  "updatedAt": "2020-01-07T19:47:52.270Z",
+  "updatedAt": "2020-01-08T20:03:05.169Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

@@ -18,14 +18,15 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     uint256 private expiration;    // contract expiration time *** 1577971200 =2/1/2020 13:20:00
     uint256 private start;         // contract start time
 
-    /*constructor(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) erc20Detailed("VotingToken", "VTC", 0)public{    //_initialTokenSupply = number of voters
-        mint(msg.sender, _initialSupply);
+    constructor(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) erc20Detailed("VotingToken", "VTC", 0)public{    //_initialTokenSupply = number of voters
+        _mint(msg.sender, _initialSupply);
         addVotersList(_voterAddresses);
         addCandidatesList(_candidateAddresses);
         distributeTokens();
         setElectionStartTime(_start);
         setElectionExpirationTime(_end);
-    }*/
+    }
+    /*
     constructor() erc20Detailed("VotingToken", "VTC", 0)public onlyOwner{    //_initialTokenSupply = number of voters
     }
 
@@ -36,7 +37,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         distributeTokens();
         setElectionStartTime(_start);
         setElectionExpirationTime(_end);
-    }
+    }*/
 
     function addVoterAddress(address _address) internal onlyOwner{
         voterAddressInitialized[_address] = true;

@@ -7,7 +7,6 @@ var App = {
 
   init: function() {
     window.ethereum.enable();//saved the world, but doesn't define it self any more :D
-    App.appUi();
     return App.initWeb3();
   },
 
@@ -35,40 +34,37 @@ var App = {
       // Connect provider to interact with contract
       App.contracts.Election.setProvider(App.web3Provider);
 
-      // App.listenForEvents();
+      //  App.listenForEvents();
 
-      // return App.render();
+      //  return App.render();
     });
     $.getJSON("ElectionToken.json", function(electiontoken) {
       // Instantiate a new truffle contract from the artifact
       App.contracts.ElectionToken = TruffleContract(electiontoken);
       // Connect provider to interact with contract
       App.contracts.ElectionToken.setProvider(App.web3Provider);
-      App.listenForEvents();
-
+   
+      //App.listenForEvents();
       return App.render();
-      // App.listenForEvents();
-
-      // return App.render();
     });
   },
 
   // Listen for events emitted from the contract
-  listenForEvents: function() {
-    App.contracts.Election.deployed().then(function(instance) {
-      // Restart Chrome if you are unable to receive this event
-      // This is a known issue with Metamask
-      // https://github.com/MetaMask/metamask-extension/issues/2393
-      instance.votedEvent({}, {
-        fromBlock: 0,
-        toBlock: 'latest'
-      }).watch(function(error, event) {
-        console.log("event triggered", event);
-        // Reload when a new vote is recorded
-        App.render();
-      });
-    });
-  },
+  // listenForEvents: function() {
+  //   App.contracts.Election.deployed().then(function(instance) {
+  //     // Restart Chrome if you are unable to receive this event
+  //     // This is a known issue with Metamask
+  //     // https://github.com/MetaMask/metamask-extension/issues/2393
+  //     instance.votedEvent({}, {
+  //       fromBlock: 0,
+  //       toBlock: 'latest'
+  //     }).watch(function(error, event) {
+  //       console.log("event triggered", event);
+  //       // Reload when a new vote is recorded
+  //       App.render();
+  //     });
+  //   });
+  // },
 
   render: function() {
     var electionInstance;
@@ -92,83 +88,131 @@ var App = {
     // });
 
     // Load contract data
-    App.contracts.Election.deployed().then(function(instance) {
-      electionInstance = instance;
-      return electionInstance.candidatesCount();
-    }).then(function(candidatesCount) {
-      var candidatesResults = $("#candidatesResults");
-      candidatesResults.empty();
 
-      var candidatesSelect = $('#candidatesSelect');
-      candidatesSelect.empty();
+    
 
-      for (var i = 1; i <= candidatesCount; i++) {
-        electionInstance.candidates(i).then(function(candidate) {
-          var id = candidate[0];
-          var name = candidate[1];
-          var voteCount = candidate[2];
 
-          // Render candidate Result
-          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>";
-          candidatesResults.append(candidateTemplate);
 
-          // Render candidate ballot option
-          var candidateOption = "<option value='" + id + "' >" + name + "</ option>";
-          candidatesSelect.append(candidateOption);
-        });
-      }
-      return electionInstance.voters(App.account);
-    }).then(function(hasVoted) {
-      // Do not allow a user to vote   /////// shuld be replaced with token withdrawn
-      if(hasVoted) {
-        $('form').hide();
-      }
-      loader.hide();
-      content.show();
-    }).catch(function(error) {
-      console.warn(error);
+   ////////////////////////////////////MY CODE//////////////////////////////////////////////////////////////////////////////////////////// 
+
+var candidates=JSON.parse(localStorage.getItem("storageName"));
+var candidatesCount=candidates.length;
+
+var candidatesResults = $("#candidatesResults");
+//candidatesResults.empty();
+
+var candidatesSelect = $('#candidatesSelect');
+//candidatesSelect.empty();
+
+
+for (var i = 0; i <= candidatesCount; i++) {
+ // electionInstance.candidates(i).then(function(candidate) {
+    var id = i+1;
+    var name = candidates[i];
+    var voteCount = 0;
+
+    // Render candidate Result
+    var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>";
+    candidatesResults.append(candidateTemplate);
+
+    // Render candidate ballot option
+    var candidateOption = "<option value='" + id + "' >" + name + "</ option>";
+    candidatesSelect.append(candidateOption);
+ 
+};
+
+    // });
+//}
+loader.hide();
+content.show();
+
+console.log(457896 + " " + candidatesCount);
+
+
+
+
+
+
+////////////////////////////////////////NOT MY CODE///////////////////
+    App.contracts.Election.deployed().then(function(instance) 
+    {
+    //   electionInstance = instance;
+    //   return electionInstance.candidatesCount();
+    // }).then(function(candidatesCount)
+    //  {
+    //   var candidatesResults = $("#candidatesResults");
+    //   candidatesResults.empty();
+
+    //   var candidatesSelect = $('#candidatesSelect');
+    //   candidatesSelect.empty();
+
+    //   for (var i = 1; i <= candidatesCount; i++) {
+    //     electionInstance.candidates(i).then(function(candidate) {
+    //       var id = candidate[0];
+    //       var name = candidate[1];
+    //       var voteCount = candidate[2];
+
+    //       // Render candidate Result
+    //       var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>";
+    //       candidatesResults.append(candidateTemplate);
+
+    //       // Render candidate ballot option
+    //       var candidateOption = "<option value='" + id + "' >" + name + "</ option>";
+    //       candidatesSelect.append(candidateOption);
+    //     });
+    //   }
+    //   return electionInstance.voters(App.account);
+    // }).then(function(hasVoted) {
+    //   // Do not allow a user to vote   /////// shuld be replaced with token withdrawn
+    //   if(hasVoted) {
+    //    // $('form').hide();
+    //   }
+    //   loader.hide();
+    //   content.show();
+    // }).catch(function(error) {
+    //   console.warn(error);
     });
+
+
+
   },
 
+
+  ////THE VOTING ITSELF
   castVote: function() {
     var candidateId = $('#candidatesSelect').val();
-    App.contracts.Election.deployed().then(function(instance) {
-      instance.vote(candidateId, { from: App.account });
-    }).then(function(result) {
-      // Wait for votes to update
-      $("#content").hide();
-      $("#loader").show();
-    }).catch(function(err) {
-      console.error(err);
+    App.contracts.ElectionToken.at("0x5ec224034af7c3237a8947af54103c0d8ef5dd71").then(function(instancer) {
+      debugger;
+      console.log("i`m here");
+      instancer.vote("0xf882D3e2837eBf0E1990338B05C87a30FE9095cf");
+
+
+    // App.contracts.Election.deployed().then(function(instance) {
+    //   instance.vote(candidateId, { from: App.account });
+    // })
+    // .then(function(result) {
+    //   // Wait for votes to update
+    //   $("#content").hide();
+    //   $("#loader").show();
+    // }).catch(function(err) {
+    //   console.error(err);
+    });
+  },
+/////// OUR VERSION
+  voteForCandidate: function() {
+    App.contracts.ElectionToken.at("0x5ec224034af7c3237a8947af54103c0d8ef5dd71").then(function(instancer) {
+      debugger;
+      console.log("i`m here");
+      instancer.vote("0x90e5bbFEB8271E4E88815801Eb6eD3e2004fc74f");
+  
     });
   },
 
-    appUi:function () {
-      let = readMore = () => {
-         $(".myBtn").on("click", function () {
-          // $(document).on("click",".myBtn" ,function () {
-          let parent = $(this).prev("p")[0];
-          let dots = $(parent).children(".dots")[0];
-          let moreText = $(parent).children(".more")[0];
-      
-        if (!$(dots).is(":visible")) {
-          $(dots).show();
-          $(this).text("Read more"); 
-          $(moreText).slideUp();
-        } else {
-          $(dots).hide();
-          $(this).text("Read less"); 
-          $(moreText).slideDown();
-        }
-      
-      });
-      
-      };
-
-      readMore();
-
-  }
 };
+
+// $(document).on("click","#resultForm",function(event){
+// App.voteForCandidate();
+//   });
 
 $(document).ready(function() {
     App.init();
