@@ -1,4 +1,6 @@
 /*jshint esversion: 6 */
+ var contractAddressInput;
+var glob;
 var App = {
   web3Provider: null,
   contracts: {},
@@ -8,10 +10,16 @@ var App = {
   init: function() {
     window.ethereum.enable();//saved the world, but doesn't define it self any more :D
     return App.initWeb3();
+    
+
   },
 
   initWeb3: function() {
     // TODO: refactor conditional
+    //////////////HIDE ADMIN OPTION ////////////////////
+    var adminOption = $("#goToAdminPage");
+    adminOption.hide();
+   
     if (typeof web3 !== 'undefined') {
       // If a web3 instance is already provided by Meta Mask.
       App.web3Provider = web3.currentProvider;
@@ -26,53 +34,73 @@ var App = {
     return App.initContract();
   },
 
-
   initContract: function() {
-    $.getJSON("Election.json", function(election) {
-      // Instantiate a new truffle contract from the artifact
-      App.contracts.Election = TruffleContract(election);
-      // Connect provider to interact with contract
-      App.contracts.Election.setProvider(App.web3Provider);
-
-      //  App.listenForEvents();
-
-      //  return App.render();
-    });
     $.getJSON("ElectionToken.json", function(electiontoken) {
       // Instantiate a new truffle contract from the artifact
       App.contracts.ElectionToken = TruffleContract(electiontoken);
       // Connect provider to interact with contract
       App.contracts.ElectionToken.setProvider(App.web3Provider);
+      var adminOption = $("#goToAdminPage");
+      var account =  web3.eth.accounts[0];
+
+      if( account.toLowerCase() ==="0xcdf57e7b90b86653fc6b4a7509400d9368157ebc".toLowerCase()) {
+        adminOption.show();
+         console.log("i`m the admin: " +account);
+      }
    
-      //App.listenForEvents();
-      return App.render();
+  if (window.location.href.indexOf("index") > -1) {
+    //alert("your url contains the name index");
+    App.checkContractAddress();
+  }
+      
+  if (window.location.href.indexOf("results") > -1) {
+   // alert("your url contains the name results");
+    return App.render();  }
+     
     });
   },
 
+  checkContractAddress: function() {
+    contractAddressInput = $("#contractAddressInput").val();
+     localStorage.setItem("contract",contractAddressInput);
+    console.log("where is the pizza? " + localStorage);
+    // contractAddressInput.select();
+    // contractAddressInput.setSelectionRange(0, 99999);    
+    // document.execCommand("copy");
+    if(web3.isAddress(contractAddressInput))
+    {
+      console.log('address exist');
+      window.location.assign('candidates.html');
+    }else{
+      console.log('address do noooooooot exist');
+      modal.style.display = "block";
+    }
+  },       
   // Listen for events emitted from the contract
-  // listenForEvents: function() {
-  //   App.contracts.Election.deployed().then(function(instance) {
-  //     // Restart Chrome if you are unable to receive this event
-  //     // This is a known issue with Metamask
-  //     // https://github.com/MetaMask/metamask-extension/issues/2393
-  //     instance.votedEvent({}, {
-  //       fromBlock: 0,
-  //       toBlock: 'latest'
-  //     }).watch(function(error, event) {
-  //       console.log("event triggered", event);
-  //       // Reload when a new vote is recorded
-  //       App.render();
-  //     });
-  //   });
-  // },
+  listenForEvents: function() {
+    App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
+      // Restart Chrome if you are unable to receive this event
+      // This is a known issue with Metamask
+      // https://github.com/MetaMask/metamask-extension/issues/2393
+      console.log('inside eventlisten');
+      instance.votedEvent({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event) {
+        console.log("event triggered", event);
+        // Reload when a new vote is recorded
+        App.render();
+      });
+    });
+  },
 
   render: function() {
-    var electionInstance;
+    var instance;
     var loader = $("#loader");
     var content = $("#content");
-
-    loader.show();
-    content.hide();
+    console.log('in render');
+    loader.hide();
+    content.show();
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -80,140 +108,122 @@ var App = {
         App.account = account;
         $("#accountAddress").html("Your Account: " + account);
      }
-    });
-////test function
-    // App.contracts.ElectionToken.deployed().then(function(instancet) {
     
-  
-    // });
+    });
 
+////////////////////////////////////////////////try//////////////////////////////////////////////////////////////////
+// console.log('almost in1'); 
+// contractAddressInput=localStorage.getItem("contract");
+// App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
+//   console.log('Im in1');
+//   electionInstance = instance;
+//   return electionInstance.candidatesCount();    // get amount of candidates 
+// }).then(function(candidatesCount) {
+//     localStorage.setItem("count",candidatesCount);
+// });
+
+console.log('almost in2'); 
+contractAddressInput=localStorage.getItem("contract");
+App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
+  console.log('Im in2');
+  electionInstance = instance;
+  return electionInstance.candidateAddresses();    // get amount of candidates 
+}).then(function(candidateAddresses) {
+    localStorage.setItem("cAddresses",JSON.stringify(candidateAddresses));
+});
+
+console.log('almost in3'); 
+contractAddressInput=localStorage.getItem("contract");
+App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
+  console.log('Im in3');
+  var candidateAddress=JSON.parse(localStorage.getItem("storageName"));
+  electionInstance = instance;
+
+  // $(candidateAddresses).each(function(el){
+  //   console.log(el);
+  // });
+//   var balance=[];
+//   let getValue = function (value) {
+//     return electionInstance.balanceOf(value);
+//   };
+//   for (var i = 0; i < candidateAddress.length; i++) {
+// balanceItem= getValue(candidateAddress[i]);
+// // balance.push(electionInstance.balanceOf(candidateAddress[i]));
+//     
+//   }
+ var x= electionInstance.balanceOFFFF(); 
+ debugger;
+  return electionInstance.balanceOFFFF();    // get amount of candidates 
+}).then(function(balanceOFFFF) {
+  debugger;
+    localStorage.setItem("balanceOf",JSON.stringify(balanceOFFFF));
+    
+});
+
+
+/////////////////////////////////////////////////end of try///////////////////////////////////////////////////////////
     // Load contract data
+    console.log('almost in'); 
+    contractAddressInput=localStorage.getItem("contract");
+    App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
+      console.log('Im in');
+      electionInstance = instance;
+      
+      return electionInstance.candidatesCount();    // get amount of candidates 
+    }).then(function(candidatesCount) {
+      var candidatesResults = $("#candidatesResults");
+      candidatesResults.empty();  // Remove the content of element
 
-    
+      var candidatesSelect = $('#candidatesSelect');
+      candidatesSelect.empty();
+      
+      
+      for (var i = 0; i < candidatesCount; i++) {
+        var candidateAddress=JSON.parse(localStorage.getItem("storageName"));
+      
+        // electionInstance.candidateAddresses(i);  // Get candidate address
+        var voteCount = JSON.parse(localStorage.getItem("balanceOf"));
+        //electionInstance.balanceOf(candidateAddress);   // Get balance by candidate address
 
+        // Render candidate Result
+        var candidateTemplate = "<tr><th>" + i + "</th><td>" + candidateAddress[i] + "</td><td>" + voteCount[i] + "</td></tr>";
+        candidatesResults.append(candidateTemplate);
 
+        // Render candidate ballot option
+        var candidateOption = "<option value='" + i + "' >" + candidateAddress[i] + "</ option>";
+        candidatesSelect.append(candidateOption);
+    }
 
-   ////////////////////////////////////MY CODE//////////////////////////////////////////////////////////////////////////////////////////// 
+  //   return electionInstance.voters(App.account);
+  // }).then(function(hasVoted) {
+  //   // Do not allow a user to vote   /////// shuld be replaced with token withdrawn
+  //   if(hasVoted) {
+  //     $('form').hide();
+  //   }
+  //   loader.hide();
+  //   content.show();
+  // }).catch(function(error) {
+  //   console.warn(error);
+  });
 
-var candidates=JSON.parse(localStorage.getItem("storageName"));
-var candidatesCount=candidates.length;
+  },
 
-var candidatesResults = $("#candidatesResults");
-//candidatesResults.empty();
-
-var candidatesSelect = $('#candidatesSelect');
-//candidatesSelect.empty();
-
-
-for (var i = 0; i <= candidatesCount; i++) {
- // electionInstance.candidates(i).then(function(candidate) {
-    var id = i+1;
-    var name = candidates[i];
-    var voteCount = 0;
-
-    // Render candidate Result
-    var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>";
-    candidatesResults.append(candidateTemplate);
-
-    // Render candidate ballot option
-    var candidateOption = "<option value='" + id + "' >" + name + "</ option>";
-    candidatesSelect.append(candidateOption);
- 
+  // castVote: function() {
+  //   var candidateId = $('#candidatesSelect').val();
+  //   App.contracts.ElectionToken.deployed().then(function(instance) {
+  //     instance.vote(candidateId, { from: App.account });
+  //   }).then(function(result) {
+  //     // Wait for votes to update
+  //     $("#content").hide();
+  //     $("#loader").show();
+  //   }).catch(function(err) {
+  //     console.error(err);
+  //   });
+  // },
 };
-
-    // });
-//}
-loader.hide();
-content.show();
-
-console.log(457896 + " " + candidatesCount);
-
-
-
-
-
-
-////////////////////////////////////////NOT MY CODE///////////////////
-    App.contracts.Election.deployed().then(function(instance) 
-    {
-    //   electionInstance = instance;
-    //   return electionInstance.candidatesCount();
-    // }).then(function(candidatesCount)
-    //  {
-    //   var candidatesResults = $("#candidatesResults");
-    //   candidatesResults.empty();
-
-    //   var candidatesSelect = $('#candidatesSelect');
-    //   candidatesSelect.empty();
-
-    //   for (var i = 1; i <= candidatesCount; i++) {
-    //     electionInstance.candidates(i).then(function(candidate) {
-    //       var id = candidate[0];
-    //       var name = candidate[1];
-    //       var voteCount = candidate[2];
-
-    //       // Render candidate Result
-    //       var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td></tr>";
-    //       candidatesResults.append(candidateTemplate);
-
-    //       // Render candidate ballot option
-    //       var candidateOption = "<option value='" + id + "' >" + name + "</ option>";
-    //       candidatesSelect.append(candidateOption);
-    //     });
-    //   }
-    //   return electionInstance.voters(App.account);
-    // }).then(function(hasVoted) {
-    //   // Do not allow a user to vote   /////// shuld be replaced with token withdrawn
-    //   if(hasVoted) {
-    //    // $('form').hide();
-    //   }
-    //   loader.hide();
-    //   content.show();
-    // }).catch(function(error) {
-    //   console.warn(error);
-    });
-
-
-
-  },
-
-
-  ////THE VOTING ITSELF
-  castVote: function() {
-    var candidateId = $('#candidatesSelect').val();
-    App.contracts.ElectionToken.at("0x5ec224034af7c3237a8947af54103c0d8ef5dd71").then(function(instancer) {
-      debugger;
-      console.log("i`m here");
-      instancer.vote("0xf882D3e2837eBf0E1990338B05C87a30FE9095cf");
-
-
-    // App.contracts.Election.deployed().then(function(instance) {
-    //   instance.vote(candidateId, { from: App.account });
-    // })
-    // .then(function(result) {
-    //   // Wait for votes to update
-    //   $("#content").hide();
-    //   $("#loader").show();
-    // }).catch(function(err) {
-    //   console.error(err);
-    });
-  },
-/////// OUR VERSION
-  voteForCandidate: function() {
-    App.contracts.ElectionToken.at("0x5ec224034af7c3237a8947af54103c0d8ef5dd71").then(function(instancer) {
-      debugger;
-      console.log("i`m here");
-      instancer.vote("0x90e5bbFEB8271E4E88815801Eb6eD3e2004fc74f");
-  
-    });
-  },
-
-};
-
-// $(document).on("click","#resultForm",function(event){
-// App.voteForCandidate();
-//   });
 
 $(document).ready(function() {
     App.init();
   });
+
+

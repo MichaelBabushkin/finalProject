@@ -9,6 +9,9 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     address[] public voterAddresses;
     address[] public candidateAddresses;
 
+    uint public candidatesCount;
+
+
     mapping (address => bool) voterAddressInitialized;
     mapping (address => bool) candidateAddressInitialized;
 
@@ -38,7 +41,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         setElectionStartTime(_start);
         setElectionExpirationTime(_end);
     }*/
-
+    
     function addVoterAddress(address _address) internal onlyOwner{
         voterAddressInitialized[_address] = true;
         voterAddresses.push(_address);
@@ -55,6 +58,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
 
     function addCandidateAddress(address _address) internal onlyOwner{
         candidateAddressInitialized[_address] = true;
+        candidatesCount ++;
         candidateAddresses.push(_address);
     }
 
@@ -130,10 +134,15 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     }
 
     //******for test******
-    function balanceOFFFF(address _address)public view returns (uint256){
-        return balanceOf(_address);
-    }
-    function balanceOFFF(address _address)public view returns (uint256){
-        return balanceOf(_address);
-    }
+    function balanceOFFFF()public returns ( address[] memory){
+    address[]  votebalance;
+    for(uint i = 0; i < candidateAddresses.length; i++){
+    votebalance[i]=balanceOf(candidateAddresses[i]);
+}
+
+        return votebalance;
+    // }
+    // function balanceOFFF(address _address)public view returns (uint256){
+    //     return balanceOf(_address);
+    // }
 }
