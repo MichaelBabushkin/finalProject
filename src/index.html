@@ -40,7 +40,7 @@
                         <a href="#" id="contact-btn">Contact Us</a>
                     </li>
                     <li>
-                        <a href="admin.html">Activate election</a>
+                        <a href="admin.html" id="goToAdminPage">Activate election</a>
                     </li>
                 </ul>
                 
@@ -54,7 +54,8 @@
             <div class="header-content-inner">
                 <br><br><br><br><br>              
                 <br><br><br><br><br>              
-                <br><br><br><br><br><br><br>
+                <br><br><br><br><br>
+                <br><br><br><br><br>
                 <h2>Vote & Influence with Votechain </h2>
                 <p>Our platform gives you the opportunity to vote easily and comfortably.<br>
                      Everything is encrypted on the highest level. So let`s start influence! </p>
@@ -64,7 +65,7 @@
                         <h5>Enter your Election Address: </h5>
                         <input type="text" id="contractAddressInput" placeholder="e.g.  0x2850a2c43e334f62986b91d76725acda47b7f0e5" > 
                     </div><br>
-                    <button title="Go to election in address" type="button" id="start-btn" onclick="checkContractAddress()">Start</button>
+                    <button title="Go to election in address" type="button" id="start-btn" onclick="App.checkContractAddress()">Start</button>
                     
                     <!-- <a href="candidates.html" id="start-btn" class="btn btn-primary btn-lg">Start</a> -->
                 </div>
@@ -121,7 +122,6 @@
     <script src="js/truffle-contract.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/app.js"></script>
- 
 
 </body>
 
