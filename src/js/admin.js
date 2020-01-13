@@ -38,17 +38,20 @@ var Admin = {
 
       // return Admin.render();
       Admin.initContractParams();
+
+      //Admin.addNewCandidate();
     });
   },
 
   initContractParams: function() {
+ 
     var initialSupply = $("#supplyInput").val();   // get input from html input element
     initialSupply = Number(initialSupply);
 
     var voterAddresses = $("#votersInput").val();
     voterAddresses = JSON.parse(voterAddresses);
-    var candidateAddresses = $("#candidatesInput").val();
-    candidateAddresses = JSON.parse(candidateAddresses);
+    /*var candidateAddresses = $("#candidatesInput").val();
+    candidateAddresses = JSON.parse(candidateAddresses);*/
 
     var startDate = $("#dateTimeStart").val();   // get input from html input element
     var endDate = $("#dateTimeEnd").val();
@@ -57,15 +60,26 @@ var Admin = {
     endDate = new Date(endDate);
     startDate = Math.floor(startDate/1000); // omit last 3 digits
     endDate = Math.floor(endDate/1000);
-
-    //Admin.contracts.ElectionToken.new().then(function(instance) {
-    Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, candidateAddresses, startDate, endDate).then(function(instance) {
+    
+    //Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, candidateAddresses, startDate, endDate).then(function(instance) {
+    Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, startDate, endDate).then(function(instance) {
       console.log(instance.address);
       Admin.contractAddress = instance.address;
+      //localStorage.setItem("contract",JSON.stringify(Admin.contractAddress));
       console.log(Admin.contractAddress);
       // When the transaction ends, open the modal 
       modal.style.display = "block";
       document.getElementById("contractAdd").innerHTML = instance.address;
+    });
+  },
+
+  addNewCandidate: function() {
+    var candidateAddress = $("#newCandidateAddress").val();   
+    var candidateName = $("#newCandidateName").val();
+    var candidateDescription = $("#newCandidateDescription").val();
+
+    Admin.contracts.ElectionToken.at(Admin.contractAddress).then(function(instance) {
+      instance.addCandidate(candidateAddress, candidateName, candidateDescription);
     });
   }
 };
@@ -86,13 +100,13 @@ var span = document.getElementsByClassName("close")[0];
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = "none";
-}
+};
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
-}
+};
 // copy contract address to clipboard
 function myCopy() {
   var copyText = document.getElementById("contractAdd");
@@ -100,4 +114,18 @@ function myCopy() {
   copyText.setSelectionRange(0, 99999);
   document.execCommand("copy");
   alert("Copied the address: " + copyText.value);
+  showDiv();
+}
+
+function addCandidate(){
+  Admin.addNewCandidate();
+}
+
+function showDiv() {
+  var mainFormElement = document.getElementById('mainContractForm');
+  var addCandidatesElement = document.getElementById('addCandidatesForm');
+  if (addCandidatesElement.style.display === 'none') {
+    mainFormElement.style.display = 'none';
+    addCandidatesElement.style.display = 'block';
+  }
 }
