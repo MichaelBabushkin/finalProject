@@ -23,7 +23,10 @@
       <script src="js/bootstrap.min.js"></script>
       <script src="js/web3.min.js"></script>
       <script src="js/truffle-contract.js"></script>
+      <script src="js/custom.js"></script>
       <script src="js/app.js"></script>
+      <!-- <script src="js/admin.js"></script> -->
+      
       
   </head>
   <body>
@@ -50,7 +53,8 @@
               </tbody>
             </table>
             <hr/>
-            <form onSubmit="App.castVote(); return false;">
+    
+              <form onSubmit="App.castVote(); return false;">
               <div class="form-group">
                 <label for="candidatesSelect">Select Candidate</label>
                 <select class="form-control" id="candidatesSelect">
@@ -60,11 +64,26 @@
               <hr />
             </form>
             <p id="accountAddress" class="text-center"></p>
+           
+
+
           </div>
         </div>
       </div>
     </div>
     
+    <!-- <button onclick="myFunction()">vote</button>
+
+    <script>
+      function myFunction() {
+        App.contracts.ElectionToken.at("0x5ec224034af7c3237a8947af54103c0d8ef5dd71").then(function(instancer) {
+      console.log("i`m here2"  );
+      instancer.vote("0x1661ED73CE3003eF32B3B51ADbba02254E55fb84");
+
+      });
+    }
+      </script>  -->
+
   </body>
   
 </html>
