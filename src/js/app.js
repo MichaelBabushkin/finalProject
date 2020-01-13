@@ -67,7 +67,8 @@ var App = {
     {
       App.contractAddress = contractAddressInput;
       console.log('address exist');
-      window.location.assign('candidates.html');
+      //window.location.assign('candidates.html');
+      window.location.assign('results.html');
     }else{
       console.log('address do not exist');
       //modal.style.display = "block";
@@ -118,16 +119,40 @@ var App = {
       var candidatesSelect = $('#candidatesSelect');
       candidatesSelect.empty();
 
+      var candidatesLayout = $('#candidatesLayOut');
+      candidatesLayout.empty();
+
+
       for (var i = 0; i <= candidatesCount; i++) {
         electionInstance.candidates(i).then(function(candidate) {
           var id = candidate[0];
-          var candidateAddress = candidate[3];
           var candidateName = candidate[1];
           var candidateDescription = candidate[2];
-          var candidateExist = candidate[4];
+          var candidateAddress = candidate[3];
+          var candidateImgLink = candidate[4];
+          var candidateExist = candidate[5];
+
+
 
           electionInstance.balanceOf(candidateAddress).then(function(voteCount){
             if(candidateExist){
+              // create article element and set it's class attribute
+              var candidateArticleInLayOut = document.createElement("article");
+              candidateArticleInLayOut.setAttribute("class", "col-md-4 article-intro");
+              // create img element and set it's id attribute +
+              var candidateImgInLayOut = document.createElement("img");
+              var imgID = "img" + id;
+              candidateImgInLayOut.setAttribute("id", imgID);
+              // set the value of the src attribute of the image
+              document.getElementById(imgID).src = candidateImgLink;
+
+              candidateArticleInLayOut.appendChild(candidateImgInLayOut);
+
+              var candidatePElementInLayOut = "<p>" + candidateDescription + "</p>";
+              candidateArticleInLayOut.append(candidatePElementInLayOut);
+
+              candidatesLayout.append(candidateArticleInLayOut);
+              
               // Render candidate Result
               var candidateTemplate = "<tr><th>" + id + "</th><td>" + candidateName + "</td><td>" +  voteCount + "</td></tr>";
               candidatesResults.append(candidateTemplate);  
@@ -164,3 +189,24 @@ $(document).ready(function() {
 /*function checkContractAddress() {
   App.init();
 }*/
+
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("a").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+      // Store hash
+      var hash = this.hash;
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){  
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+});
