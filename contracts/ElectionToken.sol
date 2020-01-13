@@ -8,9 +8,12 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
 
     address[] public voterAddresses;
     address[] public candidateAddresses;
-
+    
     uint public candidatesCount;
-
+    
+    event votedEvent (
+        address indexed _candidateId
+    );
 
     mapping (address => bool) voterAddressInitialized;
     mapping (address => bool) candidateAddressInitialized;
@@ -29,24 +32,12 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         setElectionStartTime(_start);
         setElectionExpirationTime(_end);
     }
-    /*
-    constructor() erc20Detailed("VotingToken", "VTC", 0)public onlyOwner{    //_initialTokenSupply = number of voters
-    }
-
-    function initializeContract(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) public onlyOwner{
-        _mint(msg.sender, _initialSupply);
-        addVotersList(_voterAddresses);
-        addCandidatesList(_candidateAddresses);
-        distributeTokens();
-        setElectionStartTime(_start);
-        setElectionExpirationTime(_end);
-    }*/
     
     function addVoterAddress(address _address) internal onlyOwner{
         voterAddressInitialized[_address] = true;
         voterAddresses.push(_address);
     }
-
+   
     function addVotersList(address[] memory addresses) public onlyOwner{
         //require(now < (start * 1 seconds), "Poll started v");
         for(uint i = 0; i < addresses.length; i++){
@@ -91,6 +82,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         require(balanceOf(msg.sender) > 0,"Voter doesn't have a token");
         transfer(candidateAddress,1);
         voted[msg.sender] = true;
+        emit  votedEvent(candidateAddress);
     }
 
     function getResults() public view returns (address[] memory , uint256[] memory ){
@@ -134,14 +126,14 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     }
 
     //******for test******
-    function balanceOFFFF()public returns ( address[] memory){
-    address[]  votebalance;
-    for(uint i = 0; i < candidateAddresses.length; i++){
+    function balanceOFFFF()public view  returns ( uint256[] memory){
+    uint256[] memory votebalance= new uint256[](candidateAddresses.length);
+    for(uint i = 0; i < candidateAddresses.length; i++)
+    {
     votebalance[i]=balanceOf(candidateAddresses[i]);
 }
-
-        return votebalance;
-    // }
+return votebalance;
+}
     // function balanceOFFF(address _address)public view returns (uint256){
     //     return balanceOf(_address);
     // }

@@ -54,31 +54,31 @@
             </table>
             <hr/>
     
-              <form>
+            <form >
               <div class="form-group">
                 <label for="candidatesSelect">Select Candidate</label>
                 <select class="form-control" id="candidatesSelect">
                 </select>
               </div>
-              <button  id = "resultForm" class="btn btn-primary">Vote</button>
+              <!-- <button  id = "resultForm" class="btn btn-primary" onclick="myFunction()">Vote</button> -->
               <hr />
             </form>
             <p id="accountAddress" class="text-center"></p>
            
-
+            <button id="voteButton" onclick="vote()">Vote</button>
 
           </div>
         </div>
       </div>
     </div>
     
-    <!-- <button onclick="myFunction()">vote</button>
+    
 
-    <script>
+    <!-- <script>
       function myFunction() {
-        App.contracts.ElectionToken.at("0x5ec224034af7c3237a8947af54103c0d8ef5dd71").then(function(instancer) {
+        App.contracts.ElectionToken.at("0x7a79012479901c65d0940c7a938f326d7b611192").then(function(instancer) {
       console.log("i`m here2"  );
-      instancer.vote("0x1661ED73CE3003eF32B3B51ADbba02254E55fb84");
+      instancer.vote("0x90e5bbFEB8271E4E88815801Eb6eD3e2004fc74f");
 
       });
     }

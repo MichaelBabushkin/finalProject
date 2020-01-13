@@ -11,7 +11,6 @@ var App = {
     window.ethereum.enable();//saved the world, but doesn't define it self any more :D
     return App.initWeb3();
     
-
   },
 
   initWeb3: function() {
@@ -31,6 +30,7 @@ var App = {
       web3 = new Web3(App.web3Provider);
       //web3.eth.defaultAccount = web3.eth.accounts[0];
     }
+    
     return App.initContract();
   },
 
@@ -49,12 +49,10 @@ var App = {
       }
    
   if (window.location.href.indexOf("index") > -1) {
-    //alert("your url contains the name index");
     App.checkContractAddress();
   }
       
   if (window.location.href.indexOf("results") > -1) {
-   // alert("your url contains the name results");
     return App.render();  }
      
     });
@@ -76,23 +74,6 @@ var App = {
       modal.style.display = "block";
     }
   },       
-  // Listen for events emitted from the contract
-  listenForEvents: function() {
-    App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
-      // Restart Chrome if you are unable to receive this event
-      // This is a known issue with Metamask
-      // https://github.com/MetaMask/metamask-extension/issues/2393
-      console.log('inside eventlisten');
-      instance.votedEvent({}, {
-        fromBlock: 0,
-        toBlock: 'latest'
-      }).watch(function(error, event) {
-        console.log("event triggered", event);
-        // Reload when a new vote is recorded
-        App.render();
-      });
-    });
-  },
 
   render: function() {
     var instance;
@@ -112,15 +93,6 @@ var App = {
     });
 
 ////////////////////////////////////////////////try//////////////////////////////////////////////////////////////////
-// console.log('almost in1'); 
-// contractAddressInput=localStorage.getItem("contract");
-// App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
-//   console.log('Im in1');
-//   electionInstance = instance;
-//   return electionInstance.candidatesCount();    // get amount of candidates 
-// }).then(function(candidatesCount) {
-//     localStorage.setItem("count",candidatesCount);
-// });
 
 console.log('almost in2'); 
 contractAddressInput=localStorage.getItem("contract");
@@ -138,26 +110,9 @@ App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
   console.log('Im in3');
   var candidateAddress=JSON.parse(localStorage.getItem("storageName"));
   electionInstance = instance;
-
-  // $(candidateAddresses).each(function(el){
-  //   console.log(el);
-  // });
-//   var balance=[];
-//   let getValue = function (value) {
-//     return electionInstance.balanceOf(value);
-//   };
-//   for (var i = 0; i < candidateAddress.length; i++) {
-// balanceItem= getValue(candidateAddress[i]);
-// // balance.push(electionInstance.balanceOf(candidateAddress[i]));
-//     
-//   }
- var x= electionInstance.balanceOFFFF(); 
- debugger;
   return electionInstance.balanceOFFFF();    // get amount of candidates 
 }).then(function(balanceOFFFF) {
-  debugger;
     localStorage.setItem("balanceOf",JSON.stringify(balanceOFFFF));
-    
 });
 
 
@@ -176,14 +131,14 @@ App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
 
       var candidatesSelect = $('#candidatesSelect');
       candidatesSelect.empty();
+      var candidateAddress=JSON.parse(localStorage.getItem("storageName"));
       
+      // electionInstance.candidateAddresses(i);  // Get candidate address
+      var voteCount = JSON.parse(localStorage.getItem("balanceOf"));
+      //electionInstance.balanceOf(candidateAddress);   // Get balance by candidate address
       
       for (var i = 0; i < candidatesCount; i++) {
-        var candidateAddress=JSON.parse(localStorage.getItem("storageName"));
-      
-        // electionInstance.candidateAddresses(i);  // Get candidate address
-        var voteCount = JSON.parse(localStorage.getItem("balanceOf"));
-        //electionInstance.balanceOf(candidateAddress);   // Get balance by candidate address
+     
 
         // Render candidate Result
         var candidateTemplate = "<tr><th>" + i + "</th><td>" + candidateAddress[i] + "</td><td>" + voteCount[i] + "</td></tr>";
@@ -207,19 +162,7 @@ App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
   });
 
   },
-
-  // castVote: function() {
-  //   var candidateId = $('#candidatesSelect').val();
-  //   App.contracts.ElectionToken.deployed().then(function(instance) {
-  //     instance.vote(candidateId, { from: App.account });
-  //   }).then(function(result) {
-  //     // Wait for votes to update
-  //     $("#content").hide();
-  //     $("#loader").show();
-  //   }).catch(function(err) {
-  //     console.error(err);
-  //   });
-  // },
+  
 };
 
 $(document).ready(function() {
@@ -227,3 +170,49 @@ $(document).ready(function() {
   });
 
 
+  function checkContractAddress() {
+    console.log('Kannnnnnn');
+      App.init();  
+  }
+
+  // function castVote() {
+  //   // castVote: function() {
+  //     var candidateId = $('#candidatesSelect').find('option:selected').text();
+  //     contractAddressInput=localStorage.getItem("contract");
+  //     debugger;
+  //     App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) { 
+  //       instance.vote(candidateId);
+  //     }).then(function(result) {
+  //       // Wait for votes to update
+  //       $("#content").hide();
+  //       $("#loader").show();
+  //     }).catch(function(err) {
+  //       console.error(err);
+  //     });
+  //   }
+    function vote() {
+      var candidateId = $('#candidatesSelect').find('option:selected').text();
+         contractAddressInput=localStorage.getItem("contract");
+      App.contracts.ElectionToken.at(contractAddressInput).then(function(instancer) {
+    console.log("i`m here5"  );
+    instancer.vote(candidateId);
+   listenForEvents();
+    })
+  }
+    // Listen for events emitted from the contract
+     function listenForEvents() {
+      App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
+        // Restart Chrome if you are unable to receive this event
+        // This is a known issue with Metamask
+        // https://github.com/MetaMask/metamask-extension/issues/2393
+        console.log('inside eventlisten');
+        instance.votedEvent({}, {
+          fromBlock: 0,
+          toBlock: 'latest'
+        }).watch(function(error, event) {
+          console.log("event triggered", event);
+          // Reload when a new vote is recorded
+          App.render();
+        });
+      });
+    }
