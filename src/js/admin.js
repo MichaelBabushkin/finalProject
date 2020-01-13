@@ -77,9 +77,13 @@ var Admin = {
     var candidateAddress = $("#newCandidateAddress").val();   
     var candidateName = $("#newCandidateName").val();
     var candidateDescription = $("#newCandidateDescription").val();
+    var candidateImageLink = $("newCandidateImageLink").val();
+    var candidateImageLink = "'" + candidateImageLink + "'";
+    console.log('https://www.havoda.org.il/wp-content/uploads/2019/01/haavoda-new-logo.png');
+    console.log(candidateImageLink);
 
     Admin.contracts.ElectionToken.at(Admin.contractAddress).then(function(instance) {
-      instance.addCandidate(candidateAddress, candidateName, candidateDescription);
+      instance.addCandidate(candidateAddress, candidateName, candidateDescription, candidateImageLink);
     });
   }
 };
