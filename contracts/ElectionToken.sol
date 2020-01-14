@@ -14,6 +14,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         string image;                   // candidate image link
         bool candidateInitialized;      // true if candidate exist
     }
+
     mapping (uint => Candidate) public candidates;
     uint public candidatesCount;
 
@@ -54,7 +55,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         setElectionStartTime(_start);
         setElectionExpirationTime(_end);
     }*/
-    
+
     function addVoterAddress(address _address) internal onlyOwner{
         voterAddressInitialized[_address] = true;
         voterAddresses.push(_address);
@@ -84,23 +85,23 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         }
     }*/
 
-    function addCandidate(address _address, string memory _name, string memory _description, string memory _imageLink) public onlyOwner{
+    function addCandidate(address _address, string memory _name, string memory _description, string memory _image) public onlyOwner{
         require(now <= (start * 1 seconds),"This poll already started");
         require(!candidateAddressInitialized[_address], "This candidate address already exist");
 
         candidateAddressInitialized[_address] = true;
-        candidates[candidatesCount] = Candidate(candidatesCount, _name, _description, _address, _imageLink, true);
+        candidates[candidatesCount] = Candidate(candidatesCount, _name, _description, _address, _image, true);
         candidatesCount++;
         candidateAddresses.push(_address);
     }
 
-    function editCandidateByAddress(address _address, string memory _name, string memory _description, string memory _imageLink) public onlyOwner{
+    function editCandidateByAddress(address _address, string memory _name, string memory _description, string memory _image) public onlyOwner{
         require(now <= (start * 1 seconds),"This poll already started");
         require(candidateAddressInitialized[_address], "This candidate address doesn't exist");
 
         for(uint i = 0; i < candidatesCount; i++){      // find candidate index
             if(candidates[i].candidateAdd == _address){
-                candidates[i] = Candidate(candidatesCount, _name, _description, _address, _imageLink, true);
+                candidates[i] = Candidate(candidatesCount, _name, _description, _address, _image, true);
             }
         }
     }
