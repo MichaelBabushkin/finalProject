@@ -118,7 +118,6 @@ var App = {
       candidatesResults.empty();  // Remove the content of element      
       var candidatesSelect = $('#candidatesSelect');
       candidatesSelect.empty();
-
       var candidatesLayout = $('#candidatesLayOut');
       candidatesLayout.empty();
 
@@ -132,8 +131,6 @@ var App = {
           var candidateImgLink = candidate[4];
           var candidateExist = candidate[5];
 
-
-
           electionInstance.balanceOf(candidateAddress).then(function(voteCount){
             if(candidateExist){
               // create article element and set it's class attribute
@@ -144,11 +141,10 @@ var App = {
               var imgID = "img" + id;
               candidateImgInLayOut.setAttribute("id", imgID);
               // set the value of the src attribute of the image
-              document.getElementById(imgID).src = candidateImgLink;
+              candidateImgInLayOut.setAttribute("src", candidateImgLink);
 
-              candidateArticleInLayOut.appendChild(candidateImgInLayOut);
-
-              var candidatePElementInLayOut = "<p>" + candidateDescription + "</p>";
+              candidateArticleInLayOut.append(candidateImgInLayOut);
+              var candidatePElementInLayOut = candidateDescription ;
               candidateArticleInLayOut.append(candidatePElementInLayOut);
 
               candidatesLayout.append(candidateArticleInLayOut);
