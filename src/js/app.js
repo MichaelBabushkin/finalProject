@@ -4,7 +4,7 @@
 
 var ringer = {
   //countdown_to: "10/31/2014",
-  countdown_to: "01/17/2020",
+  countdown_to: "01/19/2020",
   rings: {
     
     'HOURS': {
@@ -127,7 +127,7 @@ var App = {
     // TODO: refactor conditional
     //////////////HIDE ADMIN OPTION ////////////////////
     var adminOption = $("#goToAdminPage");
-    adminOption.hide();
+    //  
    
     if (typeof web3 !== 'undefined') {
       // If a web3 instance is already provided by Meta Mask.
@@ -149,13 +149,13 @@ var App = {
       App.contracts.ElectionToken = TruffleContract(electiontoken);
       // Connect provider to interact with contract
       App.contracts.ElectionToken.setProvider(App.web3Provider);
-      var adminOption = $("#goToAdminPage");
+      // var adminOption = $("#goToAdminPage");
       var account =  web3.eth.accounts[0];
 
-      if( account.toLowerCase() ==="0x3EbBc360ba6F6762316e55972A13E032634871e8".toLowerCase()) {
-        adminOption.show();
-         console.log("i`m the admin: " +account);
-      }
+      // if( account.toLowerCase() ==="0x1213F95F68ff4B5D182C96929E45f6E7412BDA4e".toLowerCase()) {
+      //   adminOption.show();
+      //    console.log("i`m the admin: " +account);
+      // }
    
   if (window.location.href.indexOf("index") > -1) {
     //alert("your url contains the name index");
@@ -172,7 +172,7 @@ var App = {
   checkContractAddress: function() {
     contractAddressInput = $("#contractAddressInput").val();
     localStorage.setItem("contract",contractAddressInput);
-    console.log("where is the pizza? " + localStorage);
+    // console.log("where is the pizza? " + localStorage);
     if(web3.isAddress(contractAddressInput))
     {
       App.contractAddress = contractAddressInput;
@@ -274,6 +274,12 @@ var App = {
           });
         });
       }
+     
+    }).then(function () {
+      setTimeout(function () {
+        App.updateChart();
+      }, 5000 );
+
     });
   },
 
@@ -290,72 +296,48 @@ var App = {
     }).catch(function(err) {
       console.error(err);
     });
+  },
+  clickScroll: function () {
+    $("a").on('click', function(event) {
+      // Make sure this.hash has a value before overriding default behavior
+      if (this.hash !== "") {
+        // Prevent default anchor click behavior
+        event.preventDefault();
+        // Store hash
+        var hash = this.hash;
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+          scrollTop: $(hash).offset().top
+        }, 800, function(){  
+          // Add hash (#) to URL when done scrolling (default click behavior)
+          window.location.hash = hash;
+        });
+      } // End if
+    });
+  },
+  updateChart: function () {
+    ///find all votes;
+    let chart = $(".chart");
+    let table = $("#candidatesResults");
+  
+    $(table).find("tr").each(function() {
+   
+      let name = $(this).find("td:nth-child(2)");
+      let votes = $(this).find("td:nth-child(3)");
+      /// find height
+      debugger;
+      let chartItem= $("<li><span title=" + name +">  </span></li>" );
+    });
+
   }
 };
 
 $(document).ready(function() {
   ringer.init();
     App.init();
+    App.clickScroll();
+    
   });
 
-/*function checkContractAddress() {
-  App.init();
-}*/
 
-$(document).ready(function(){
-  // Add smooth scrolling to all links
-  $("a").on('click', function(event) {
-    // Make sure this.hash has a value before overriding default behavior
-    if (this.hash !== "") {
-      // Prevent default anchor click behavior
-      event.preventDefault();
-      // Store hash
-      var hash = this.hash;
-      // Using jQuery's animate() method to add smooth page scroll
-      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-      $('html, body').animate({
-        scrollTop: $(hash).offset().top
-      }, 800, function(){  
-        // Add hash (#) to URL when done scrolling (default click behavior)
-        window.location.hash = hash;
-      });
-    } // End if
-  });
-});
-// var ctxB = document.getElementById("barChart").getContext('2d');
-// var myBarChart = new Chart(ctxB, {
-// type: 'bar',
-// data: {
-// labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-// datasets: [{
-// label: '# of Votes',
-// data: [12, 19, 3, 5, 2, 3],
-// backgroundColor: [
-// 'rgba(255, 99, 132, 0.2)',
-// 'rgba(54, 162, 235, 0.2)',
-// 'rgba(255, 206, 86, 0.2)',
-// 'rgba(75, 192, 192, 0.2)',
-// 'rgba(153, 102, 255, 0.2)',
-// 'rgba(255, 159, 64, 0.2)'
-// ],
-// borderColor: [
-// 'rgba(255,99,132,1)',
-// 'rgba(54, 162, 235, 1)',
-// 'rgba(255, 206, 86, 1)',
-// 'rgba(75, 192, 192, 1)',
-// 'rgba(153, 102, 255, 1)',
-// 'rgba(255, 159, 64, 1)'
-// ],
-// borderWidth: 1
-// }]
-// },
-// options: {
-// scales: {
-// yAxes: [{
-// ticks: {
-// beginAtZero: true
-// }
-// }]
-// }
-// }
-// });

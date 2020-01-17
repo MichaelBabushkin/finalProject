@@ -30,7 +30,7 @@ body {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
-  font-size: 1.5rem;
+  /* font-size: 1.0rem; */
 }
  
     #candidatesSelect.form-control{
@@ -103,12 +103,12 @@ img.rounded-corners{
 article img{
 width: 100%;
 border-radius: 10%;
-border: 3px  solid gray;
+border: 1px  solid gray;
 border-bottom: none;
 }
 .article-intro {
     margin-bottom: 25px;
-  text-align: left;
+    text-align: left;
     padding: 0;
 
 }
@@ -119,11 +119,11 @@ border-bottom: none;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .wrapper{
-    height:50vh;
+    height:75vh;
     border-radius: 10%;
     background-color: rgb(198, 209, 231);
     margin: auto 1.7%;
-    border: 3px solid gray;
+    border: 1px solid gray;
 }
 
 .footer-blurb {
