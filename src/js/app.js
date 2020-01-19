@@ -228,9 +228,19 @@ var App = {
 
     contractAddressInput=localStorage.getItem("contract");
     App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
-      electionInstance = instance;   
-      return electionInstance.candidatesCount();    // get amount of candidates 
-    }).then(function(candidatesCount, endDate) {
+      electionInstance = instance;
+      return electionInstance.getElectionData();   // get election name index 0, election description index 1, amount of candidates index 2
+      //return electionInstance.candidatesCount();    // get amount of candidates 
+    //}).then(function(candidatesCount, endDate) {
+    }).then(function(electionData) {
+      var electionName = $("#electionName");
+      electionName.empty();  // Remove the content of element 
+      electionName.append('Meet the candidates of ' + electionData[0]); 
+      // electionName.append(electionData[0]);       
+      var electionDescription = $("#electionDescription");
+      electionDescription.empty();  
+      electionDescription.append(electionData[1]);
+
       var candidatesResults = $("#candidatesResults");
       candidatesResults.empty();  // Remove the content of element      
       var candidatesSelect = $('#candidatesSelect');
@@ -238,8 +248,8 @@ var App = {
       var candidatesLayout = $('#candidatesLayOut');
       candidatesLayout.empty();
 
-
-      for (var i = 0; i < candidatesCount; i++) {
+      for (var i = 0; i < electionData[2]; i++) {
+      //for (var i = 0; i < candidatesCount; i++) {
         electionInstance.candidates(i).then(function(candidate) {
           var id = candidate[0];
           var candidateName = candidate[1];
@@ -262,6 +272,7 @@ var App = {
               candidateImgInLayOut.setAttribute("id", imgID);//child
               // set the value of the src attribute of the image
               candidateImgInLayOut.setAttribute("src", candidateImgLink);
+              //candidateImgInLayOut.setAttribute("style", "width:270px;height:170px;");
 
               candidateArticleInLayOut.setAttribute("class", "col-md-4 article-intro");
               $(wrapper).attr("class","wrapper");
