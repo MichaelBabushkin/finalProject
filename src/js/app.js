@@ -1,113 +1,8 @@
 /*jshint esversion: 6 */
-//bar
-
-
-var ringer = {
-  //countdown_to: "10/31/2014",
-  countdown_to: "01/19/2020",
-  rings: {
-    
-    'HOURS': {
-      s: 3600000, // mseconds per hour,
-      max: 24
-    },
-    'MINUTES': {
-      s: 60000, // mseconds per minute
-      max: 60
-    },
-    'SECONDS': {
-      s: 1000,
-      max: 60
-    }
-    
-   },
-  r_count: 5,
-  r_spacing: 10, // px
-  r_size: 100, // px
-  r_thickness: 2, // px
-  update_interval: 11, // ms
- 
-  init: function(){
-   
-    $r = ringer;
-    $r.cvs = document.createElement('canvas'); 
-    
-    $r.size = { 
-      w: ($r.r_size + $r.r_thickness) * $r.r_count + ($r.r_spacing*($r.r_count-1)), 
-      h: ($r.r_size + $r.r_thickness) 
-    };
- 
-    $r.cvs.setAttribute('width',$r.size.w);           
-    $r.cvs.setAttribute('height',$r.size.h);
-    $r.ctx = $r.cvs.getContext('2d');
-    $(document.body).append($r.cvs);
-    $r.cvs = $($r.cvs);    
-    $r.ctx.textAlign = 'center';
-    $r.ctx.position = 'top';
-    $r.actual_size = $r.r_size + $r.r_thickness;
-    $r.countdown_to_time = new Date($r.countdown_to).getTime();
-    $r.cvs.css({ width: $r.size.w+"px", height: $r.size.h+"px" });
-    $r.go();
-  },
-  ctx: null,
-  go: function(){
-    var idx=0;
-    
-    $r.time = (new Date().getTime()) - $r.countdown_to_time;
-
-    for(var r_key in $r.rings) $r.unit(idx++,r_key,$r.rings[r_key]);      
-    
-    setTimeout($r.go,$r.update_interval);
-  },
-  unit: function(idx,label,ring) {
-    var x,y, value, ring_secs = ring.s;
-    value = parseFloat($r.time/ring_secs);
-    $r.time-=Math.round(parseInt(value)) * ring_secs;
-    value = Math.abs(value);
-    
-    x = ($r.r_size*.5 + $r.r_thickness*.5);
-    x +=+(idx*($r.r_size+$r.r_spacing+$r.r_thickness));
-    y = $r.r_size*.5;
-    y += $r.r_thickness*.5;
-
-    
-    // calculate arc end angle
-    var degrees = 360-(value / ring.max) * 360.0;
-    var endAngle = degrees * (Math.PI / 180);
-    
-    $r.ctx.save();
-
-    $r.ctx.translate(x,y);
-    $r.ctx.clearRect($r.actual_size*-0.5,$r.actual_size*-0.5,$r.actual_size,$r.actual_size);
-
-    // first circle
-    $r.ctx.strokeStyle = "rgba(128,128,128,0.2)";
-    $r.ctx.beginPath();
-    $r.ctx.arc(0,0,$r.r_size/2,0,2 * Math.PI, 2);
-    $r.ctx.lineWidth =$r.r_thickness;
-    $r.ctx.stroke();
-   
-    // second circle
-    $r.ctx.strokeStyle = "rgba(253, 128, 1, 0.9)";
-    $r.ctx.beginPath();
-    $r.ctx.arc(0,0,$r.r_size/2,0,endAngle, 1);
-    $r.ctx.lineWidth =$r.r_thickness;
-    $r.ctx.stroke();
-    
-    // label
-    $r.ctx.fillStyle = "#4eb5f1";
-   
-    $r.ctx.font = '12px Helvetica';
-    $r.ctx.fillText(label, 0, 23);
-    $r.ctx.fillText(label, 0, 23);   
-    
-    $r.ctx.font = 'bold 40px Helvetica';
-    $r.ctx.fillText(Math.floor(value), 0, 10);
-    
-    $r.ctx.restore();
-  }
+// var ringer = {
   
-};
+  
+// };
 
 var contractAddressInput;
 var glob;
@@ -122,7 +17,113 @@ var App = {
     window.ethereum.enable();//saved the world, but doesn't define it self any more :D
     return App.initWeb3();
   },
-
+  ringerInit: function (date) {
+    const ringer = {
+    // countdown_to: "01/19/2020",
+    countdown_to: date,
+    rings: {
+      
+      'HOURS': {
+        s: 3600000, // mseconds per hour,
+        max: 24
+      },
+      'MINUTES': {
+        s: 60000, // mseconds per minute
+        max: 60
+      },
+      'SECONDS': {
+        s: 1000,
+        max: 60
+      }
+      
+     },
+    r_count: 5,
+    r_spacing: 10, // px
+    r_size: 100, // px
+    r_thickness: 2, // px
+    update_interval: 11, // ms
+   
+    init: function(){
+     
+      $r = ringer;
+      $r.cvs = document.createElement('canvas'); 
+      
+      $r.size = { 
+        w: ($r.r_size + $r.r_thickness) * $r.r_count + ($r.r_spacing*($r.r_count-1)), 
+        h: ($r.r_size + $r.r_thickness) 
+      };
+   
+      $r.cvs.setAttribute('width',$r.size.w);           
+      $r.cvs.setAttribute('height',$r.size.h);
+      $r.ctx = $r.cvs.getContext('2d');
+      $(document.body).append($r.cvs);
+      $r.cvs = $($r.cvs);    
+      $r.ctx.textAlign = 'center';
+      $r.ctx.position = 'top';
+      $r.actual_size = $r.r_size + $r.r_thickness;
+      $r.countdown_to_time = new Date($r.countdown_to).getTime();
+      $r.cvs.css({ width: $r.size.w+"px", height: $r.size.h+"px" });
+      $r.go();
+    },
+    ctx: null,
+    go: function(){
+      var idx=0;
+      
+      $r.time = (new Date().getTime()) - $r.countdown_to_time;
+  
+      for(var r_key in $r.rings) $r.unit(idx++,r_key,$r.rings[r_key]);      
+      
+      setTimeout($r.go,$r.update_interval);
+    },
+    unit: function(idx,label,ring) {
+      var x,y, value, ring_secs = ring.s;
+      value = parseFloat($r.time/ring_secs);
+      $r.time-=Math.round(parseInt(value)) * ring_secs;
+      value = Math.abs(value);
+      
+      x = ($r.r_size*.5 + $r.r_thickness*.5);
+      x +=+(idx*($r.r_size+$r.r_spacing+$r.r_thickness));
+      y = $r.r_size*.5;
+      y += $r.r_thickness*.5;
+  
+      
+      // calculate arc end angle
+      var degrees = 360-(value / ring.max) * 360.0;
+      var endAngle = degrees * (Math.PI / 180);
+      
+      $r.ctx.save();
+  
+      $r.ctx.translate(x,y);
+      $r.ctx.clearRect($r.actual_size*-0.5,$r.actual_size*-0.5,$r.actual_size,$r.actual_size);
+  
+      // first circle
+      $r.ctx.strokeStyle = "rgba(128,128,128,0.2)";
+      $r.ctx.beginPath();
+      $r.ctx.arc(0,0,$r.r_size/2,0,2 * Math.PI, 2);
+      $r.ctx.lineWidth =$r.r_thickness;
+      $r.ctx.stroke();
+     
+      // second circle
+      $r.ctx.strokeStyle = "rgba(253, 128, 1, 0.9)";
+      $r.ctx.beginPath();
+      $r.ctx.arc(0,0,$r.r_size/2,0,endAngle, 1);
+      $r.ctx.lineWidth =$r.r_thickness;
+      $r.ctx.stroke();
+      
+      // label
+      $r.ctx.fillStyle = "#4eb5f1";
+     
+      $r.ctx.font = '12px Helvetica';
+      $r.ctx.fillText(label, 0, 23);
+      $r.ctx.fillText(label, 0, 23);   
+      
+      $r.ctx.font = 'bold 40px Helvetica';
+      $r.ctx.fillText(Math.floor(value), 0, 10);
+      
+      $r.ctx.restore();
+    }
+  };
+  },
   initWeb3: function() {
     // TODO: refactor conditional
     //////////////HIDE ADMIN OPTION ////////////////////
@@ -158,26 +159,22 @@ var App = {
       // }
    
   if (window.location.href.indexOf("index") > -1) {
-    //alert("your url contains the name index");
     App.checkContractAddress();
   }
       
   if (window.location.href.indexOf("results") > -1) {
-   // alert("your url contains the name results");
     return App.render();  }
-     
     });
   },
 
+  
   checkContractAddress: function() {
     contractAddressInput = $("#contractAddressInput").val();
     localStorage.setItem("contract",contractAddressInput);
-    // console.log("where is the pizza? " + localStorage);
     if(web3.isAddress(contractAddressInput))
     {
       App.contractAddress = contractAddressInput;
       console.log('address exist');
-      //window.location.assign('candidates.html');
       window.location.assign('results.html');
     }else{
       console.log('address do not exist');
@@ -203,6 +200,16 @@ var App = {
     });
   },
 
+  // getEndDate: function(){
+  //   contractAddressInput=localStorage.getItem("contract");
+  //   App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
+  //  return instance.displayEndTime();    
+  // }).then(function(endTime) {
+  // console.log("Pizza again? " + endTime);
+
+  //   });
+  // },
+
   render: function() {
     var instance;
     var loader = $("#loader");
@@ -223,7 +230,7 @@ var App = {
     App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
       electionInstance = instance;   
       return electionInstance.candidatesCount();    // get amount of candidates 
-    }).then(function(candidatesCount) {
+    }).then(function(candidatesCount, endDate) {
       var candidatesResults = $("#candidatesResults");
       candidatesResults.empty();  // Remove the content of element      
       var candidatesSelect = $('#candidatesSelect');
@@ -274,12 +281,19 @@ var App = {
           });
         });
       }
-     
+
     }).then(function () {
+    
       setTimeout(function () {
         App.updateChart();
       }, 5000 );
 
+    });
+    //get date and update ringer:
+    App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
+      return instance.displayEndTime();
+    }).then(function (time) {
+      console.log(time);
     });
   },
 
@@ -320,22 +334,47 @@ var App = {
     ///find all votes;
     let chart = $(".chart");
     let table = $("#candidatesResults");
-  
-    $(table).find("tr").each(function() {
    
-      let name = $(this).find("td:nth-child(2)");
-      let votes = $(this).find("td:nth-child(3)");
-      /// find height
-      debugger;
-      let chartItem= $("<li><span title=" + name +">  </span></li>" );
-    });
+    let sumVote = 0;
+
+    let getSum = function () {
+      $(table).find("tr td:nth-child(3)").each(function(el) {
+
+
+         let test = el%2 === 0? el * 5 : el/3;
+         $(this).text(test);//DELETE THIS CRAP OUT!!!
+         let voteNum =parseInt($(this).text());
+         if(typeof(voteNum)!=="number"){
+         voteNum=0;
+         }
+       sumVote += voteNum;
+  
+      });
+    };
+
+    let fillChart = function () {
+      $(table).find("tr").each(function() {
+        let onePercentHeight=3.51; //1%
+        let name = $(this).find("td:nth-child(2)").text();
+        let votes = $(this).find("td:nth-child(3)").text();
+        votes = parseInt(votes);
+        /// find height
+        let itemHeight = sumVote !== 0 ? (votes/sumVote)*onePercentHeight*100 : 0;
+     
+        let result=Math.floor((itemHeight/onePercentHeight));
+        $(chart).append('<li><p>'+ result + '%</p> <span style="height:'+ itemHeight + 'px" class="voteColumn"></span><span class="candidateName">' + name +'</span></li>');
+      });
+    };
+    getSum();
+    fillChart();
 
   }
 };
 
 $(document).ready(function() {
-  ringer.init();
+    //ringer.init();
     App.init();
+
     App.clickScroll();
     
   });

@@ -30,6 +30,7 @@ h1{
     color: rgb(160, 15, 15);
     font-weight: 900;
     font-family: fantasy;
+    text-align: center;
 }
 .menu{
 text-align: center;
@@ -66,7 +67,7 @@ position: relative;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 25%;
+    width: 65%;
 }
 
 /* The Close Button */
@@ -85,7 +86,7 @@ position: relative;
 }
 
 
-.banner-message{
+/* .banner-message{
     font-size: 20px;
     background-color: rgb(213, 230, 173);
     text-align: left;
@@ -105,13 +106,13 @@ position: relative;
     background-color: rgb(122, 50, 205);
     float:right;
     /* max-height: 30px; */
-    position: absolute;
+    /* position: absolute;
     right: 0;
     bottom: 2px;
     border-radius: 3px;
     color: white;
     margin: 0 10px;
-    } 
+    }  */ */
 
 
 
@@ -140,9 +141,7 @@ header {
     min-height: auto;
     text-align: center;
     color: rgb(40, 53, 112);
-    /* background-image: url('../images/vote-blockchain.jpg') ; */
     background-position: center;
-
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -435,7 +434,6 @@ fieldset[disabled] .btn-default.active {
     color: white;
     margin: 0 10px;
     } 
-
 
 
 .start-btn {
@@ -859,9 +857,6 @@ img::-moz-selection {
 }
 
 
-
-
-/* .more {display: none;} */
 .width30 {
     width: 30%;
 }
@@ -903,3 +898,6 @@ label{
     font-size: 20px;
     
 }
+/* .btn btn-success{
+    
+} */

@@ -213,6 +213,9 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         uint256 timeNow = now;
         return (timeNow, start, expiration);
     }
+     function displayEndTime() public view returns(uint256){
+        return (expiration);
+    }
 
     //******for test******
     function balanceOFFFF()public view returns (uint256[] memory){

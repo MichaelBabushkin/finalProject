@@ -55,12 +55,14 @@ var Admin = {
 
     var startDate = $("#dateTimeStart").val();   // get input from html input element
     var endDate = $("#dateTimeEnd").val();
-
+    
     startDate = new Date(startDate);      // convert to date format
     endDate = new Date(endDate);
+   
     startDate = Math.floor(startDate/1000); // omit last 3 digits
     endDate = Math.floor(endDate/1000);
-    
+    console.log("what date it is? " + endDate);
+    $(".chart").attr("enddate", endDate);
     //Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, candidateAddresses, startDate, endDate).then(function(instance) {
     Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, startDate, endDate).then(function(instance) {
       console.log(instance.address);
