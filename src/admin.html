@@ -52,31 +52,34 @@
                       
                 <form name="theform" action="#" id="electionForm" method="POST">
                   <div class="form-group">
-                    <div class="width30 floatL"><label>Election name:</label> </div>
-                    <div class="width70 floatR"><input type="datetime-local" id="dateTimeEnd" value="2020-01-25T20:00"/>  </div>            
-                  </div><br>
-                  <br><br>
+                    <div class="width30 floatL"><label>Name Your Election:</label> </div>
+                    <div class="width70 floatR"><input type="text" id="nameInput" required="required" pattern="[a-zA-Z][a-zA-Z0-9 ]{7,}" placeholder="Election Name begin with a letter"></div>            
+                  </div>
+                  <br><br><br>
                   <div class="form-group">
-                    <div class="width30 floatL"><label>Election description:</label> </div>
-                    <div class="width70 floatR"><input type="datetime-local" id="dateTimeEnd" value="2020-01-25T20:00"/>  </div>            
-                  </div><br>
+                    <div class="width30 floatL"><label>Describe Your Election:</label> </div>
+                    <div class="width70 floatR"><input type="text" id="descriptionInput" required="required" placeholder="Election description"></div>            
+                  </div>
+                  <br><br><br>
                   <div class="form-group">
                     <div class="width30 floatL"><label> Add Supply:</label> </div>
-                    <div class="width70 floatR"> <input type=text id="supplyInput" placeholder="uint256_value" ></div> 
-                  
-                      </div><br><br>
+                    <div class="width70 floatR"><input type=text id="supplyInput" required="required" placeholder="uint256_value" ></div> 
+                  </div>
+                  <br><br><br>
                   <div class="form-group">
                     <div class="width30 floatL"><label>Add Voters:</label> </div>
-                    <div class="width70 floatR">  <input type=text id="votersInput" placeholder="address[]">  </div>
-                      </div><br>          
+                    <div class="width70 floatR"><input type=text id="votersInput" required="required" placeholder="address[]"></div>
+                  </div>
+                  <br><br><br>         
                   <div class="form-group">
                     <div class="width30 floatL"><label>Time of election start:</label> </div>
-                    <div class="width70 floatR"> <input type="datetime-local" id="dateTimeStart" value="2020-01-17T07:00"/>  </div>                       
-                          </div><br><br>
+                    <div class="width70 floatR"><input type="datetime-local" id="dateTimeStart" value="2020-01-17T07:00"/></div>                       
+                  </div>
+                  <br><br><br>
                   <div class="form-group">
                     <div class="width30 floatL"><label>Time of election end:</label> </div>
-                    <div class="width70 floatR"><input type="datetime-local" id="dateTimeEnd" value="2020-01-25T20:00"/>  </div>            
-                  </div><br>
+                    <div class="width70 floatR"><input type="datetime-local" id="dateTimeEnd" value="2020-01-25T20:00"/></div>            
+                  </div>
                   <br><br>
                 
                   <br><br>
@@ -113,7 +116,7 @@
                 <form action="#" id="electionForm" method="POST">
 
                   <div class="form-group">
-                   <div class="width30 floatL"><label> New Candidate Address</label> </div>
+                   <div class="width30 floatL"><label>New Candidate Address</label> </div>
                    <div class="width70 floatR"><input type=text id="newCandidateAddress" placeholder="Candidate address" > </div>
                     </div><br><br><br>
                     <div class="form-group">
@@ -121,11 +124,11 @@
                       <div class="width70 floatR"><input type=text id="newCandidateName" placeholder="Candidate name"></div>
                       </div><br><br>
                       <div class="form-group">
-                        <div class="width30 floatL"><label>   New Candidate Description</label> </div>
+                        <div class="width30 floatL"><label>New Candidate Description</label> </div>
                         <div class="width70 floatR"><input type=text id="newCandidateDescription" placeholder="Candidate description" ></div>
                         </div><br> <br>
                         <div class="form-group">
-                          <div class="width30 floatL"><label> New Candidate Image Link</label> </div>
+                          <div class="width30 floatL"><label>New Candidate Image Link</label> </div>
                           <div class="width70 floatR"> <input type=text id="newCandidateImageLink" placeholder="Candidate image link" ></div>
                           </div><br> <br>
 
