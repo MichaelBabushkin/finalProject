@@ -1,5 +1,6 @@
 pragma solidity >=0.4.22 <0.6.0;
 pragma experimental ABIEncoderV2;       // only for remix experiment
+
 import  "./erc20.sol";
 import  "./erc20Detailed.sol";
 import  "./Owned.sol";
@@ -18,6 +19,9 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     mapping (uint => Candidate) public candidates;
     uint public candidatesCount;
 
+    string public electionName;
+    string public electionDescription;
+
     address[] public voterAddresses;
     address[] public candidateAddresses;
 
@@ -35,8 +39,10 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     );
 
     //constructor(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) erc20Detailed("VotingToken", "VTC", 0)public{    //_initialTokenSupply = number of voters
-    constructor(uint256 _initialSupply, address[] memory _voterAddresses, uint256 _start, uint256 _end) erc20Detailed("VotingToken", "VTC", 0)public{    //_initialTokenSupply = number of voters
+    constructor(string memory _name, string memory _description, uint256 _initialSupply, address[] memory _voterAddresses, uint256 _start, uint256 _end) erc20Detailed("VotingToken", "VTC", 0)public{    //_initialTokenSupply = number of voters
         _mint(msg.sender, _initialSupply);
+        setElectionName(_name);
+        setElectionDescription(_description);
         addVotersList(_voterAddresses);
         //addCandidatesList(_candidateAddresses);
         distributeTokens();
@@ -55,6 +61,25 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         setElectionStartTime(_start);
         setElectionExpirationTime(_end);
     }*/
+    function getElectionData() public view returns (string memory, string memory ,uint ){
+        return (electionName, electionDescription, candidatesCount);
+    }
+
+    function setElectionName(string memory _name)public onlyOwner{
+        electionName = _name;
+    }
+
+    function getElectionName()public view returns (string memory){
+        return electionName;
+    }
+
+    function setElectionDescription(string memory _description)public onlyOwner{
+        electionDescription = _description;
+    }
+
+    function getElectionDescription()public view returns (string memory){
+        return electionDescription;
+    }
 
     function addVoterAddress(address _address) internal onlyOwner{
         voterAddressInitialized[_address] = true;
@@ -122,7 +147,8 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
 
     function distributeTokens() public onlyOwner{
         for(uint i = 0; i < voterAddresses.length; i++){
-            require(totalSupply() > 0,"Supply is over");
+            //require(totalSupply() > 0,"Supply is over");
+            require(balanceOf(msg.sender) > 0,"Supply is over");
             transfer(voterAddresses[i],1);
         }
     }
