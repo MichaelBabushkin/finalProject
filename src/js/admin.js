@@ -44,7 +44,9 @@ var Admin = {
   },
 
   initContractParams: function() {
- 
+    var electionName = $("#nameInput").val();
+    var electionDescription = $("#descriptionInput").val();
+
     var initialSupply = $("#supplyInput").val();   // get input from html input element
     initialSupply = Number(initialSupply);
 
@@ -64,7 +66,8 @@ var Admin = {
     console.log("what date it is? " + endDate);
     $(".chart").attr("enddate", endDate);
     //Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, candidateAddresses, startDate, endDate).then(function(instance) {
-    Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, startDate, endDate).then(function(instance) {
+    
+    Admin.contracts.ElectionToken.new(electionName, electionDescription, initialSupply, voterAddresses, startDate, endDate).then(function(instance) {
       console.log(instance.address);
       Admin.contractAddress = instance.address;
       //localStorage.setItem("contract",JSON.stringify(Admin.contractAddress));

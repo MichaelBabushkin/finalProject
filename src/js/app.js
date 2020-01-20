@@ -18,6 +18,7 @@ var App = {
     return App.initWeb3();
   },
   ringerInit: function (date) {
+
     const ringer = {
     // countdown_to: "01/19/2020",
     countdown_to: date,
@@ -57,6 +58,7 @@ var App = {
       $r.cvs.setAttribute('height',$r.size.h);
       $r.ctx = $r.cvs.getContext('2d');
       $(document.body).append($r.cvs);
+      debugger;
       $r.cvs = $($r.cvs);    
       $r.ctx.textAlign = 'center';
       $r.ctx.position = 'top';
@@ -71,8 +73,8 @@ var App = {
       
       $r.time = (new Date().getTime()) - $r.countdown_to_time;
   
-      for(var r_key in $r.rings) $r.unit(idx++,r_key,$r.rings[r_key]);      
-      
+      for(var r_key in $r.rings) $r.unit(idx++,r_key,$r.rings[r_key]);  
+   
       setTimeout($r.go,$r.update_interval);
     },
     unit: function(idx,label,ring) {
@@ -81,10 +83,10 @@ var App = {
       $r.time-=Math.round(parseInt(value)) * ring_secs;
       value = Math.abs(value);
       
-      x = ($r.r_size*.5 + $r.r_thickness*.5);
+      x = ($r.r_size * 0.5 + $r.r_thickness* 0.5);
       x +=+(idx*($r.r_size+$r.r_spacing+$r.r_thickness));
-      y = $r.r_size*.5;
-      y += $r.r_thickness*.5;
+      y = $r.r_size* 0.5;
+      y += $r.r_thickness*0.5;
   
       
       // calculate arc end angle
@@ -228,9 +230,19 @@ var App = {
 
     contractAddressInput=localStorage.getItem("contract");
     App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
-      electionInstance = instance;   
-      return electionInstance.candidatesCount();    // get amount of candidates 
-    }).then(function(candidatesCount, endDate) {
+      electionInstance = instance;
+      return electionInstance.getElectionData();   // get election name index 0, election description index 1, amount of candidates index 2
+      //return electionInstance.candidatesCount();    // get amount of candidates 
+    //}).then(function(candidatesCount, endDate) {
+    }).then(function(electionData) {
+      var electionName = $("#electionName");
+      electionName.empty();  // Remove the content of element 
+      electionName.append('Meet the candidates of ' + electionData[0]); 
+      // electionName.append(electionData[0]);       
+      var electionDescription = $("#electionDescription");
+      electionDescription.empty();  
+      electionDescription.append(electionData[1]);
+
       var candidatesResults = $("#candidatesResults");
       candidatesResults.empty();  // Remove the content of element      
       var candidatesSelect = $('#candidatesSelect');
@@ -238,8 +250,8 @@ var App = {
       var candidatesLayout = $('#candidatesLayOut');
       candidatesLayout.empty();
 
-
-      for (var i = 0; i < candidatesCount; i++) {
+      for (var i = 0; i < electionData[2]; i++) {
+      //for (var i = 0; i < candidatesCount; i++) {
         electionInstance.candidates(i).then(function(candidate) {
           var id = candidate[0];
           var candidateName = candidate[1];
@@ -262,6 +274,7 @@ var App = {
               candidateImgInLayOut.setAttribute("id", imgID);//child
               // set the value of the src attribute of the image
               candidateImgInLayOut.setAttribute("src", candidateImgLink);
+              //candidateImgInLayOut.setAttribute("style", "width:270px;height:170px;");
 
               candidateArticleInLayOut.setAttribute("class", "col-md-4 article-intro");
               $(wrapper).attr("class","wrapper");
@@ -294,6 +307,21 @@ var App = {
       return instance.displayEndTime();
     }).then(function (time) {
       console.log(time);
+      time = time.c[0];
+
+      
+      let getFormattedDate = function (oldDate) { // Change date to readable
+        let mSeconds = oldDate * 1000;
+        let newDate = new Date(mSeconds);
+        let normalDate = newDate.getDate();
+        let normalMonth = newDate.getMonth() + 1;
+    
+        return  ("0" + normalMonth).slice(-2)+ "/" + ("0" + normalDate).slice(-2) + "/" + newDate.getFullYear();
+    };
+      time = getFormattedDate(time);
+      console.log(time);
+      App.ringerInit(time);
+
     });
   },
 
@@ -378,5 +406,3 @@ $(document).ready(function() {
     App.clickScroll();
     
   });
-
-
