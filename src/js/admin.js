@@ -34,12 +34,8 @@ var Admin = {
       // Connect provider to interact with contract
       Admin.contracts.ElectionToken.setProvider(Admin.web3Provider);
 
-      //Admin.listenForEvents();
-
-      // return Admin.render();
       Admin.initContractParams();
 
-      //Admin.addNewCandidate();
     });
   },
 
@@ -65,7 +61,7 @@ var Admin = {
     endDate = Math.floor(endDate/1000);
     console.log("what date it is? " + endDate);
     $(".chart").attr("enddate", endDate);
-    //Admin.contracts.ElectionToken.new(initialSupply, voterAddresses, candidateAddresses, startDate, endDate).then(function(instance) {
+
     
     Admin.contracts.ElectionToken.new(electionName, electionDescription, initialSupply, voterAddresses, startDate, endDate).then(function(instance) {
       console.log(instance.address);
@@ -83,11 +79,10 @@ var Admin = {
     var candidateName = $("#newCandidateName").val();
     var candidateDescription = $("#newCandidateDescription").val();
     var candidateImageLink = document.getElementById("newCandidateImageLink").value;
-    console.log(candidateImageLink);
-    console.log(typeof candidateImageLink);
-
+ 
     Admin.contracts.ElectionToken.at(Admin.contractAddress).then(function(instance) {
       instance.addCandidate(candidateAddress, candidateName, candidateDescription, candidateImageLink);
+      
     });
   }
 };
@@ -96,6 +91,7 @@ $(document).ready(function () {
   $('#electionForm').on("submit",function(event) {
     event.preventDefault();
     Admin.init();
+  
   });
 });
 
@@ -125,6 +121,10 @@ function myCopy() {
 
 function addCandidate(){
   Admin.addNewCandidate();
+  // $("#newCandidateAddress").reset();
+  //     $("#newCandidateName").clear();
+  //     $("#newCandidateDescription").clear();
+  //     document.getElementById("newCandidateImageLink").clear();
 }
 
 function showDiv() {

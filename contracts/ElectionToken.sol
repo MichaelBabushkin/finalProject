@@ -177,17 +177,17 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         }
         return (candidateAddresses,results);
     }
-
-    function getStatistics() public view returns (uint256 , uint256 ){      // return how many voted and didnt how many didn't
-        uint256 didVoteAmount = 0;
-        for(uint i = 0; i < voterAddresses.length; i++){
-            if(voted[voterAddresses[i]]){  // if voter voted
-                didVoteAmount += 1;
-            }
-        }
-        uint256 didntVoteAmount = voterAddresses.length - didVoteAmount;
-        return (didVoteAmount,didntVoteAmount);
-    }*/
+*/
+    // function getStatistics() public view returns (uint256 , uint256 ){      // return how many voted and didnt how many didn't
+    //     uint256 didVoteAmount = 0;
+    //     for(uint i = 0; i < voterAddresses.length; i++){
+    //         if(voted[voterAddresses[i]]){  // if voter voted
+    //             didVoteAmount += 1;
+    //         }
+    //     }
+    //     uint256 didntVoteAmount = voterAddresses.length - didVoteAmount;
+    //     return (didVoteAmount,didntVoteAmount);
+    // }
 
     function getResults() public view returns (uint256[] memory ){
         uint256[] memory results = new uint256[](candidateAddresses.length);

@@ -1,11 +1,5 @@
 /*jshint esversion: 6 */
-// var ringer = {
-  
-  
-// };
-
-var contractAddressInput;
-var glob;
+var contractAddressInput; 
 var App = {
   web3Provider: null,
   contracts: {},
@@ -52,13 +46,11 @@ var App = {
       $r.size = { 
         w: ($r.r_size + $r.r_thickness) * $r.r_count + ($r.r_spacing*($r.r_count-1)), 
         h: ($r.r_size + $r.r_thickness) 
-      };
-   
+      };   
       $r.cvs.setAttribute('width',$r.size.w);           
       $r.cvs.setAttribute('height',$r.size.h);
       $r.ctx = $r.cvs.getContext('2d');
       $(document.body).append($r.cvs);
-      debugger;
       $r.cvs = $($r.cvs);    
       $r.ctx.textAlign = 'center';
       $r.ctx.position = 'top';
@@ -113,7 +105,7 @@ var App = {
       $r.ctx.stroke();
       
       // label
-      $r.ctx.fillStyle = "#4eb5f1";
+      $r.ctx.fillStyle = "#555ae8";
      
       $r.ctx.font = '12px Helvetica';
       $r.ctx.fillText(label, 0, 23);
@@ -125,6 +117,7 @@ var App = {
       $r.ctx.restore();
     }
   };
+  ringer.init();
   },
   initWeb3: function() {
     // TODO: refactor conditional
@@ -201,16 +194,7 @@ var App = {
       });
     });
   },
-
-  // getEndDate: function(){
-  //   contractAddressInput=localStorage.getItem("contract");
-  //   App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
-  //  return instance.displayEndTime();    
-  // }).then(function(endTime) {
-  // console.log("Pizza again? " + endTime);
-
-  //   });
-  // },
+   
 
   render: function() {
     var instance;
@@ -299,9 +283,11 @@ var App = {
     
       setTimeout(function () {
         App.updateChart();
-      }, 5000 );
+      }, 4000 );
 
-    });
+    }
+    );
+
     //get date and update ringer:
     App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
       return instance.displayEndTime();
@@ -309,7 +295,6 @@ var App = {
       console.log(time);
       time = time.c[0];
 
-      
       let getFormattedDate = function (oldDate) { // Change date to readable
         let mSeconds = oldDate * 1000;
         let newDate = new Date(mSeconds);
@@ -321,7 +306,7 @@ var App = {
       time = getFormattedDate(time);
       console.log(time);
       App.ringerInit(time);
-
+// App.drawChart();
     });
   },
 
@@ -361,16 +346,14 @@ var App = {
   updateChart: function () {
     ///find all votes;
     let chart = $(".chart");
-    let table = $("#candidatesResults");
-   
+    let table = $("#candidatesResults");  
     let sumVote = 0;
-
     let getSum = function () {
       $(table).find("tr td:nth-child(3)").each(function(el) {
 
 
-         let test = el%2 === 0? el * 5 : el/3;
-         $(this).text(test);//DELETE THIS CRAP OUT!!!
+        //  let test = el%2 === 0? el * 5 : el/3;
+        //  $(this).text(test);//DELETE THIS CRAP OUT!!!
          let voteNum =parseInt($(this).text());
          if(typeof(voteNum)!=="number"){
          voteNum=0;
@@ -393,16 +376,15 @@ var App = {
         $(chart).append('<li><p>'+ result + '%</p> <span style="height:'+ itemHeight + 'px" class="voteColumn"></span><span class="candidateName">' + name +'</span></li>');
       });
     };
+
     getSum();
     fillChart();
 
-  }
+  },
+
 };
 
 $(document).ready(function() {
-    //ringer.init();
     App.init();
-
     App.clickScroll();
-    
   });
