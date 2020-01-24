@@ -48,9 +48,6 @@ var Admin = {
 
     var voterAddresses = $("#votersInput").val();
     voterAddresses = JSON.parse(voterAddresses);
-    /*var candidateAddresses = $("#candidatesInput").val();
-    candidateAddresses = JSON.parse(candidateAddresses);*/
-
     var startDate = $("#dateTimeStart").val();   // get input from html input element
     var endDate = $("#dateTimeEnd").val();
     
@@ -59,15 +56,12 @@ var Admin = {
    
     startDate = Math.floor(startDate/1000); // omit last 3 digits
     endDate = Math.floor(endDate/1000);
-    console.log("what date it is? " + endDate);
     $(".chart").attr("enddate", endDate);
 
     
     Admin.contracts.ElectionToken.new(electionName, electionDescription, initialSupply, voterAddresses, startDate, endDate).then(function(instance) {
-      console.log(instance.address);
+
       Admin.contractAddress = instance.address;
-      //localStorage.setItem("contract",JSON.stringify(Admin.contractAddress));
-      console.log(Admin.contractAddress);
       // When the transaction ends, open the modal 
       modal.style.display = "block";
       document.getElementById("contractAdd").innerHTML = instance.address;
@@ -115,16 +109,11 @@ function myCopy() {
   copyText.select();
   copyText.setSelectionRange(0, 99999);
   document.execCommand("copy");
-  // alert("Copied the address: " + copyText.value);
   showDiv();
 }
 
 function addCandidate(){
   Admin.addNewCandidate();
-  // $("#newCandidateAddress").reset();
-  //     $("#newCandidateName").clear();
-  //     $("#newCandidateDescription").clear();
-  //     document.getElementById("newCandidateImageLink").clear();
 }
 
 function showDiv() {

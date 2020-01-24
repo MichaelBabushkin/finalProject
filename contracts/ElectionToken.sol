@@ -1,5 +1,5 @@
 pragma solidity >=0.4.22 <0.6.0;
-pragma experimental ABIEncoderV2;       // only for remix experiment
+pragma experimental ABIEncoderV2;   
 
 import  "./erc20.sol";
 import  "./erc20Detailed.sol";
@@ -44,23 +44,11 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         setElectionName(_name);
         setElectionDescription(_description);
         addVotersList(_voterAddresses);
-        //addCandidatesList(_candidateAddresses);
         distributeTokens();
         setElectionStartTime(_start);
         setElectionExpirationTime(_end);
     }
-    /*
-    constructor() erc20Detailed("VotingToken", "VTC", 0)public onlyOwner{    //_initialTokenSupply = number of voters
-    }
-
-    function initializeContract(uint256 _initialSupply, address[] memory _voterAddresses, address[] memory _candidateAddresses, uint256 _start, uint256 _end) public onlyOwner{
-        _mint(msg.sender, _initialSupply);
-        addVotersList(_voterAddresses);
-        addCandidatesList(_candidateAddresses);
-        distributeTokens();
-        setElectionStartTime(_start);
-        setElectionExpirationTime(_end);
-    }*/
+ 
     function getElectionData() public view returns (string memory, string memory ,uint ){
         return (electionName, electionDescription, candidatesCount);
     }
@@ -94,21 +82,6 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
             }
         }
     }
-
-    /*function addCandidateAddress(address _address) internal onlyOwner{
-        candidateAddressInitialized[_address] = true;
-        candidatesCount ++;
-        candidateAddresses.push(_address);
-    }
-
-    function addCandidatesList(address[] memory addresses) public onlyOwner{
-        //require(now < (start * 1 seconds), "Poll started c");
-        for(uint i = 0; i < addresses.length; i++){
-            if(!candidateAddressInitialized[addresses[i]]){
-                addCandidateAddress(addresses[i]);
-            }
-        }
-    }*/
 
     function addCandidate(address _address, string memory _name, string memory _description, string memory _image) public onlyOwner{
         require(now <= (start * 1 seconds),"This poll already started");
@@ -154,11 +127,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     }
 
     function vote(address candidateAddress) public {
-        //require(!timeLimit,"Election ended");
-        /*require(now >= (start * 1 seconds), "This poll not yet started");
-        if(now > (expiration * 1 seconds)){
-            endElection();
-        }*/
+      
         require(now < (expiration * 1 seconds), "This poll has expired.");
         require(candidateAddressInitialized[candidateAddress],"Is not a Candidate");
         require(voterAddressInitialized[msg.sender],"User isn't authorized voter");
@@ -170,24 +139,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         emit votedEvent(candidateAddress);
     }
 
-    /*function getResults() public view returns (address[] memory , uint256[] memory ){
-        uint256[] memory results = new uint256[](candidateAddresses.length);
-        for(uint i = 0; i < candidateAddresses.length; i++){
-            results[i] = balanceOf(candidateAddresses[i]);
-        }
-        return (candidateAddresses,results);
-    }
-*/
-    // function getStatistics() public view returns (uint256 , uint256 ){      // return how many voted and didnt how many didn't
-    //     uint256 didVoteAmount = 0;
-    //     for(uint i = 0; i < voterAddresses.length; i++){
-    //         if(voted[voterAddresses[i]]){  // if voter voted
-    //             didVoteAmount += 1;
-    //         }
-    //     }
-    //     uint256 didntVoteAmount = voterAddresses.length - didVoteAmount;
-    //     return (didVoteAmount,didntVoteAmount);
-    // }
+
 
     function getResults() public view returns (uint256[] memory ){
         uint256[] memory results = new uint256[](candidateAddresses.length);
@@ -243,7 +195,6 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         return (expiration);
     }
 
-    //******for test******
     function balanceOFFFF()public view returns (uint256[] memory){
         uint256[] memory votebalance = new uint256[](candidateAddresses.length);
         for(uint i = 0; i < candidateAddresses.length; i++){

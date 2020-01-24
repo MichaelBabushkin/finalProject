@@ -121,7 +121,6 @@ var App = {
   },
   initWeb3: function() {
     // TODO: refactor conditional
-    //////////////HIDE ADMIN OPTION ////////////////////
     var adminOption = $("#goToAdminPage");
     //  
    
@@ -147,11 +146,6 @@ var App = {
       App.contracts.ElectionToken.setProvider(App.web3Provider);
       // var adminOption = $("#goToAdminPage");
       var account =  web3.eth.accounts[0];
-
-      // if( account.toLowerCase() ==="0x1213F95F68ff4B5D182C96929E45f6E7412BDA4e".toLowerCase()) {
-      //   adminOption.show();
-      //    console.log("i`m the admin: " +account);
-      // }
    
   if (window.location.href.indexOf("index") > -1) {
     App.checkContractAddress();
@@ -162,18 +156,15 @@ var App = {
     });
   },
 
-  
   checkContractAddress: function() {
     contractAddressInput = $("#contractAddressInput").val();
     localStorage.setItem("contract",contractAddressInput);
     if(web3.isAddress(contractAddressInput))
     {
       App.contractAddress = contractAddressInput;
-      console.log('address exist');
       window.location.assign('results.html');
     }else{
-      console.log('address do not exist');
-      //modal.style.display = "block";
+      alert('address do not exist');
     }
   },
 
@@ -188,14 +179,12 @@ var App = {
         fromBlock: 0,
         toBlock: 'latest'
       }).watch(function(error, event) {
-        console.log("event triggered", event);
         // Reload when a new vote is recorded
         App.render();
       });
     });
   },
    
-
   render: function() {
     var instance;
     var loader = $("#loader");
@@ -258,14 +247,11 @@ var App = {
               candidateImgInLayOut.setAttribute("id", imgID);//child
               // set the value of the src attribute of the image
               candidateImgInLayOut.setAttribute("src", candidateImgLink);
-              //candidateImgInLayOut.setAttribute("style", "width:270px;height:170px;");
-
               candidateArticleInLayOut.setAttribute("class", "col-md-4 article-intro");
               $(wrapper).attr("class","wrapper");
               wrapper.append(candidateImgInLayOut);
               wrapper.append(candidatePElementInLayOut);
               candidateArticleInLayOut.append(wrapper);
-
               candidatesLayout.append(candidateArticleInLayOut);
               
               // Render candidate Result
@@ -292,7 +278,7 @@ var App = {
     App.contracts.ElectionToken.at(contractAddressInput).then(function(instance) {
       return instance.displayEndTime();
     }).then(function (time) {
-      console.log(time);
+   
       time = time.c[0];
 
       let getFormattedDate = function (oldDate) { // Change date to readable
@@ -304,9 +290,8 @@ var App = {
         return  ("0" + normalMonth).slice(-2)+ "/" + ("0" + normalDate).slice(-2) + "/" + newDate.getFullYear();
     };
       time = getFormattedDate(time);
-      console.log(time);
+   
       App.ringerInit(time);
-// App.drawChart();
     });
   },
 
@@ -321,7 +306,7 @@ var App = {
       $("#loader").show();
       App.listenForEvents();
     }).catch(function(err) {
-      console.error(err);
+    
     });
   },
   clickScroll: function () {
@@ -379,7 +364,6 @@ var App = {
 
     getSum();
     fillChart();
-
   },
 
 };
