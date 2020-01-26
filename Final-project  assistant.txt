@@ -93,5 +93,5 @@ declare as much, he implied that he’d like to see himself leading the charge.
 
 https://images.maariv.co.il/image/upload/h_168,w_268/539493
 
-temp contract:
-0x4737f59a94fcf857b16e01ecd85473209d0fc7ba
+Election contract address:
+0x64e382212f5331e4e34b7956e6f771704d17d19a

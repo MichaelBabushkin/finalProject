@@ -333,3 +333,14 @@ fieldset[disabled] .btn-primary.active {
   @keyframes draw{
     0%{height:0;} 
   }
+  .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    text-align: left;}
+
+    .table td, .table th {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+        text-align: initial;
+    }
