@@ -48,7 +48,7 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         setElectionStartTime(_start);
         setElectionExpirationTime(_end);
     }
- 
+
     function getElectionData() public view returns (string memory, string memory ,uint ){
         return (electionName, electionDescription, candidatesCount);
     }
@@ -127,7 +127,10 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
     }
 
     function vote(address candidateAddress) public {
-      
+        /*require(now >= (start * 1 seconds), "This poll not yet started");
+        if(now > (expiration * 1 seconds)){
+            endElection();
+        }*/
         require(now < (expiration * 1 seconds), "This poll has expired.");
         require(candidateAddressInitialized[candidateAddress],"Is not a Candidate");
         require(voterAddressInitialized[msg.sender],"User isn't authorized voter");
@@ -191,15 +194,8 @@ contract ElectionToken is erc20, erc20Detailed, Owned{
         uint256 timeNow = now;
         return (timeNow, start, expiration);
     }
-     function displayEndTime() public view returns(uint256){
-        return (expiration);
-    }
 
-    function balanceOFFFF()public view returns (uint256[] memory){
-        uint256[] memory votebalance = new uint256[](candidateAddresses.length);
-        for(uint i = 0; i < candidateAddresses.length; i++){
-            votebalance[i] = balanceOf(candidateAddresses[i]);
-        }
-        return votebalance;
+    function displayEndTime() public view returns(uint256){
+        return (expiration);
     }
 }
